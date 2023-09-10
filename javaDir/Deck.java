@@ -15,18 +15,60 @@ enum Suit {
 	D, C, H, S
 }
 
-//------------------------------------------------//
-// Define Card class
+//--------------------------------------------------------------------//
+// Define Card subclass
 class Card {
-	private final Rank rank;
-	private final Suit suit;
+	private Rank rank;
+	private Suit suit;
 
 	public Card(Rank rank, Suit suit) {
 		this.rank = rank;
 		this.suit = suit;
 	}
 
+	public Card(String rankSample, String suitSample) {
+		this.rank = parseRank(rankSample);
+		this.suit = parseSuit(suitSample);
+	}
 
+	//------------------------------------------------//
+	public Rank parseRank(String rankParse) {
+		//Converts string input to Rank.rank
+		switch (rankParse) {
+		case " A": return Rank.A;
+		case " 2": return Rank.TWO;
+		case " 3": return Rank.THREE;
+		case " 4": return Rank.FOUR;
+		case " 5": return Rank.FIVE;
+		case " 6": return Rank.SIX;
+		case " 7": return Rank.SEVEN;
+		case " 8": return Rank.EIGHT;
+		case " 9": return Rank.NINE;
+		case "10": return Rank.TEN;
+		case " J": return Rank.J;
+		case " Q": return Rank.K;
+		case " K": return Rank.Q;
+		default: return null;
+		}
+	}
+	//------------------------------------------------//
+	public Suit parseSuit(String suitParse) {
+		//Converts string input to Suit.suit
+		switch (suitParse) {
+		case "D": return Suit.D;
+		case "C": return Suit.C;
+		case "H": return Suit.H;
+		case "S": return Suit.S;
+		default: return null;
+		}
+	}
+	//------------------------------------------------//
+	public boolean equals(Card card) {
+		if ((this.rank == card.rank) && (this.suit == card.suit)) {
+			return true;
+		}
+		else return false;
+	}
 	//------------------------------------------------//
 	@Override
 	public String toString() {
@@ -77,33 +119,23 @@ class Card {
 		return cardTitle;
 	}
 }
-
-//------------------------------------------------//
-// Define Deck class
+//End of Card subclass
+//--------------------------------------------------------------------//
+//Define Deck class
 public class Deck {
-	private final List<Card> cards;
+	private List<Card> cards = new ArrayList<>();
 
 	public Deck() {
-		cards = new ArrayList<>();
-		createDeck();
-		shuffleDeck();
-	}
-
-	//------------------------------------------------//	
-
-	private void createDeck() {
+		//Make deck
 		for (Suit suit : Suit.values()) {
 			for (Rank rank : Rank.values()) {
 				cards.add(new Card(rank, suit));
 			}
 		}
-	}
-
-	//------------------------------------------------//
-
-	public void shuffleDeck() {
+		//Shuffle deck
 		Collections.shuffle(cards, new Random());
 	}
+
 
 	//------------------------------------------------//	
 
@@ -135,25 +167,6 @@ public class Deck {
 		return null;
 	}
 
-	//------------------------------------------------//
-
-	public void checkForDuplicates() {
-		Card[] temp = new Card[52];
-		int index = 0;
-
-		for (Card card : cards) {
-			// Check if the card already exists in the temp array
-			for (int i = 0; i < index; i++) {
-				if (temp[i].equals(card)) {
-					// Found a duplicate card
-					System.out.println("*** ERROR - DUPLICATED CARD FOUND IN DECK ***"
-							+ "\n\n*** DUPLICATE: " + card.toString() + " ***\n");	
-				}
-			}
-
-			// Add the card to the temp array
-			temp[index++] = card;
-		}
-
-	}
 }
+//End of Deck class
+//--------------------------------------------------------------------//
