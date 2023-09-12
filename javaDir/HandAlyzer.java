@@ -1,5 +1,3 @@
-package wwClasses;
-
 import java.util.Arrays;
 
 public class HandAlyzer {
