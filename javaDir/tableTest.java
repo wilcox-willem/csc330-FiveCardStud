@@ -36,10 +36,14 @@ public class tableTest {
 			deck.printDeck();
 
 			//Deal 6 hands of 5 cards each,
-			for (int i = 0; i < 6; i++) {
-				for (int j = 0; j < 5; j++) {			
-					hands[i][j] = deck.dealCard(); 
-				}
+			for (int i = 0; i < 5; i++) {
+				hands[0][i] = deck.dealCard();
+				hands[1][i] = deck.dealCard();
+				hands[2][i] = deck.dealCard();
+				hands[3][i] = deck.dealCard();
+				hands[4][i] = deck.dealCard();
+				hands[5][i] = deck.dealCard();
+				
 			}
 
 			//Print hands dealt and remaining of random deck
