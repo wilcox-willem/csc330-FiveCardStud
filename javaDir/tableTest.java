@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 public class tableTest {
 
+
 	public static void main(String[] args) throws Exception {
 		//initialize gamemode and console input
 		boolean gameMode = true; //T = Random, F = PreFab Deck
@@ -17,7 +18,8 @@ public class tableTest {
 			fileName = args[0];
 		} 
 
-		//Test Decks to skip console command
+		//Test Decks to skip console command, 
+		//set gameMode to false if skipping console command
 		//fileName = "handsets/test.txt";
 		//fileName = "handsets/threeofakind.txt";
 		//fileName = "handsets/testDuplicate.txt";
@@ -30,7 +32,8 @@ public class tableTest {
 		//Deal cards based off game mode
 		if(gameMode) {
 			//Announce game mode and print deck
-			System.out.println("*** USING RANDOMIZED DECK OF CARDS ***\n\n*** Shuffled 52 card deck:");
+			System.out.println("*** USING RANDOMIZED DECK OF CARDS ***"
+					+ "\n\n*** Shuffled 52 card deck:");
 			Deck deck = new Deck();
 			deck.printDeck();
 
@@ -55,11 +58,16 @@ public class tableTest {
 		}
 
 		//------------
-		//Create analyzer to analyze and rank hands
-		//------------
+		//Create analyzer to analyze entire set of hands, then print results
+		HandAlyzer analyzer = new HandAlyzer(hands);
+		System.out.println("\n\nTEST ANALYZER BELOW\n");
+		analyzer.getAllHandsWithRanks();
+
 	}
 
+
 	//------------------------------------------------//
+	//Begin Methods
 
 	public static void printHands(Card[][] hands) {
 		System.out.println("\n*** Here are the six hands...");
@@ -75,6 +83,10 @@ public class tableTest {
 	//------------------------------------------------//
 
 	private static Card[][] importDeck(String fileName, Card[][] hands) throws Exception {
+		//This method inputs the name of a file and existing [6][5] array of players hands
+		//It parses files in the format " RS, RS, RS, RS, RS"
+		//The String parts are passed through a card constructor then added to hands array
+		//Furthermore, 
 		System.out.println("*** USING TEST DECK ***\n");
 		System.out.println("*** File: " + fileName);
 
@@ -91,13 +103,13 @@ public class tableTest {
 			System.out.println(line);
 			String parts[] = line.split(",");
 			for (String part : parts) {
-				//Splits " RS" into " R", "S"
+				//Splits " RS" into " R", "S" to separate Rank and Suit
 				String rankParse = part.substring(0, 2);
 				String suitParse = part.substring(2, 3);
 				//Uses card methods and constructor to
 				//interpret split parts to Rank & Suit enums
 				Card inputCard = new Card(rankParse, suitParse);
-				//Check for duplicates
+				//Check for duplicates pt1, if found return dupCardBool true
 				for (Card checkCard : importedCards) {
 					if (checkCard.equals(inputCard)) {
 						duplicateCardBool = true;
@@ -111,14 +123,15 @@ public class tableTest {
 			}
 		}
 
-		//Process duplication check
+		//Check for duplicates pt2
 		if (duplicateCardBool) {
 			System.out.println("*** ERROR - DUPLICATED CARD FOUND IN DECK ***"
 					+ "\n\n*** DUPLICATE: " + duplicateCardStr + " ***\n");
 			System.exit(0);
 		}
 
-		//Deal cards from importedCards Queue
+		//Deal cards to players from importedCards Queue
+		//For each 6 players, fills all 5 slots with a card then goes to next player
 		for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 5; j++) {			
 				hands[i][j] = importedCards.remove(); 

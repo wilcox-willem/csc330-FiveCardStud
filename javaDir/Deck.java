@@ -18,17 +18,38 @@ enum Suit {
 //--------------------------------------------------------------------//
 // Define Card subclass
 class Card {
-	private Rank rank;
-	private Suit suit;
+	public Rank rank;
+	public Suit suit;
 
+	//Default constructor is card of lowest value in deck (AD)
+	public Card() {
+		this.rank = Rank.A;
+		this.suit = Suit.D;
+	}
+
+	//Constructor with given rank and suit
 	public Card(Rank rank, Suit suit) {
 		this.rank = rank;
 		this.suit = suit;
 	}
 
+	//Constructor given string rank and suit
+	//Format of strings is as follows
+	//rankSample = " R" // where 10 is "10" and not " 10"
+	//suitSample = "s"
 	public Card(String rankSample, String suitSample) {
 		this.rank = parseRank(rankSample);
 		this.suit = parseSuit(suitSample);
+	}
+
+	//------------------------------------------------//
+	//Getters for rank and suit
+	public Rank getRank() {
+		return this.rank;
+	}
+
+	public Suit getSuit() {
+		return this.suit;
 	}
 
 	//------------------------------------------------//
