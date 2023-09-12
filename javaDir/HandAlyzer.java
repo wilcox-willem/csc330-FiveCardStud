@@ -19,8 +19,10 @@ public class HandAlyzer {
 
 	HandRank[] playerHandRanks = new HandRank[6];
 
+	
+
 	//Constructor ----------------------------------------//
-	//Can only be constructed with [6 -player hands][5 -Cards a hand]
+	//Can only be constructed with [6 player hands][5 Cards a hand]
 	public HandAlyzer(Card[][] hands) {
 		this.hands = hands;
 		for (int i = 0; i < 5; i++) {
