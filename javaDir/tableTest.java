@@ -19,7 +19,7 @@ public class tableTest {
 		//Test Decks to skip console command, 
 		//set gameMode to false if skipping console command
 		//fileName = "handsets/test.txt";
-		//fileName = "handsets/threeofakind.txt";
+		fileName = "handsets/threeofakind.txt";
 		//fileName = "handsets/testDuplicate.txt";
 
 		//Create 2d array for players decks
@@ -43,7 +43,7 @@ public class tableTest {
 				hands[3][i] = deck.dealCard();
 				hands[4][i] = deck.dealCard();
 				hands[5][i] = deck.dealCard();
-				
+
 			}
 
 			//Print hands dealt and remaining of random deck
@@ -62,8 +62,8 @@ public class tableTest {
 		//------------
 		//Create analyzer to analyze entire set of hands, then print results
 		HandAlyzer analyzer = new HandAlyzer(hands);
-		System.out.println("\n\nTEST ANALYZER BELOW\n");
-		analyzer.getAllHandsWithRanks();
+		System.out.println("\n");
+		analyzer.getFinalScorePrint();
 
 	}
 

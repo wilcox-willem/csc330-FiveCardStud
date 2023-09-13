@@ -15,11 +15,29 @@ public class HandAlyzer {
 	Card[] hand3 = new Card[5];
 	Card[] hand4 = new Card[5];
 	Card[] hand5 = new Card[5];
-	Card[] hand6 = new Card[5];
+	Card[] hand6 = new Card[5];	
 
+	//For tracking win and tie breaking info
+	//The following are what each index is used for
+	//[0] = HandRank //denoted as 0 (high card)) -> 9 (R straight flush)
+	//[1] = Highest Rank card (or highest Rank of pair)
+	//[2] = 2nd highest Rank card (if needed, else 0)
+	//[3] = 3rd highest Rank card (if needed, else 0)
+	//[4] = 4th highest Rank card (if needed, else 0)
+	//[5] = 5th highest Rank card (if needed, else 0)
+	//[6] = Suit of card in [1] // denoted as (0, D) (1, C) (2, H) (3, S)
+	int[] scoreKeeperP1 = new int[7];
+	int[] scoreKeeperP2 = new int[7];
+	int[] scoreKeeperP3 = new int[7];
+	int[] scoreKeeperP4 = new int[7];
+	int[] scoreKeeperP5 = new int[7];
+	int[] scoreKeeperP6 = new int[7];
+
+
+	//Holds HandRank enums in player order 1-6
 	HandRank[] playerHandRanks = new HandRank[6];
 
-	
+
 
 	//Constructor ----------------------------------------//
 	//Can only be constructed with [6 player hands][5 Cards a hand]
@@ -58,10 +76,80 @@ public class HandAlyzer {
 	}
 
 	//------------------------------------------------//
+	public void getFinalScorePrint() {
+	    String[] handStrings = new String[6];
+
+	    // Get hand rank and scoreKeeper info for scoring
+	    for (int i = 0; i < 6; i++) {
+	        int[] scoreKeeper = new int[7];
+	        HandRank rank = getHandRank(hands[i], scoreKeeper);
+	        playerHandRanks[i] = rank;
+
+	        StringBuilder handString = new StringBuilder();
+	        for (Card card : hands[i]) {
+	            handString.append(String.format("%4s", card.toString()));
+	        }
+	        handStrings[i] = handString.toString();
+	    }
+
+	    // Sort the hands in winning order based on hand rank
+	    for (int i = 0; i < 6; i++) {
+	        for (int j = i + 1; j < 6; j++) {
+	            if (playerHandRanks[i].ordinal() < playerHandRanks[j].ordinal()) {
+	                // Swap hand ranks
+	                HandRank temp = playerHandRanks[i];
+	                playerHandRanks[i] = playerHandRanks[j];
+	                playerHandRanks[j] = temp;
+
+	                // Swap hand strings
+	                String tempStr = handStrings[i];
+	                handStrings[i] = handStrings[j];
+	                handStrings[j] = tempStr;
+	            }
+	        }
+	    }
+
+	    // Print the sorted hands with their ranks
+	    System.out.println("--- WINNING HAND ORDER ---");
+	    for (int i = 0; i < 6; i++) {
+	        System.out.println(handStrings[i] + " - " + handRanktoString(playerHandRanks[i]));
+	    }
+	}
+	//------------------------------------------------//
+	//Checks one hand of 5 cards for its HandRank
+	//Currently, assigns High Card if no other HandRank fits,
+	//but it does not rank at all
+	public HandRank getHandRank(Card[] hand, int[] scoreKeeper) {
+		if (isStraightRoyalFlush(hand, scoreKeeper)) {
+			return HandRank.ROYAL_STRAIGHT_FLUSH;
+		} else if (isStraightFlush(hand, scoreKeeper)) {
+			return HandRank.STRAIGHT_FLUSH;
+		} else if (isFourOfAKind(hand, scoreKeeper)) {
+			return HandRank.FOUR_OF_A_KIND;
+		} else if (isFullHouse(hand, scoreKeeper)) {
+			return HandRank.FULL_HOUSE;
+		} else if (isFlush(hand, scoreKeeper)) {
+			return HandRank.FLUSH;
+		} else if (isStraight(hand, scoreKeeper)) {
+			return HandRank.STRAIGHT;
+		} else if (isThreeOfAKind(hand, scoreKeeper)) {
+			return HandRank.THREE_OF_A_KIND;
+		} else if (numOfPairs(hand, scoreKeeper) == 2) {
+			return HandRank.TWO_PAIR;
+		} else if (numOfPairs(hand, scoreKeeper) == 1) {
+			return HandRank.PAIR;
+		} 
+		return HandRank.HIGH_CARD;
+	}
+
+	//------------------------------------------------//
+	//Hand Rank Identifiers---------------------------//
+	//------------------------------------------------//
+
 	//Checks for the highest value card in a hand
 	//First, by rank A,2,3,...Q,K (L -> H)
 	//Then if a tie, by suit D,C,H,S (L -> H)
-	public Card getHighCard(Card[] playerHand) {
+	public Card getHighCard(Card[] playerHand, int[] scoreKeeper) {
 		Card highCard = new Card();
 		for (Card card : playerHand) {
 			if (highCard.rank.ordinal() < card.rank.ordinal())
@@ -74,94 +162,62 @@ public class HandAlyzer {
 				highCard = card;
 			}
 		}	
+		scoreKeeper[1] = highCard.rank.ordinal();
+		scoreKeeper[6] = highCard.suit.ordinal();
+
 		return highCard;
 	}
 
 	//------------------------------------------------//
-	//Checks the HandRank of each player, then prints from p1->p6
-	//Primarily for testing purposes
-	//Future/Alt version that prints in winning order w/ tie breaking
-	public void getAllHandsWithRanks() {
-		String[] playerScores = new String[6];
-		this.playerHandRanks[0] = getHandRank(this.hand1);
-		this.playerHandRanks[1] = getHandRank(this.hand2);
-		this.playerHandRanks[2] = getHandRank(this.hand3);
-		this.playerHandRanks[3] = getHandRank(this.hand4);
-		this.playerHandRanks[4] = getHandRank(this.hand5);
-		this.playerHandRanks[5] = getHandRank(this.hand6);
-
-		for (int i = 0; i < 6; i++) {
-			System.out.println(handRanktoString(this.playerHandRanks[i]));
-		}
-
-	}
-
-	//------------------------------------------------//
-	//Checks one hand of 5 cards for its HandRank
-	//Currently, assigns High Card if no other HandRank fits,
-	//but it does not rank at all
-	public HandRank getHandRank(Card[] hand) {
-		if (isStraightRoyalFlush(hand)) {
-			return HandRank.ROYAL_STRAIGHT_FLUSH;
-		} else if (isStraightFlush(hand)) {
-			return HandRank.STRAIGHT_FLUSH;
-		} else if (isFourOfAKind(hand)) {
-			return HandRank.FOUR_OF_A_KIND;
-		} else if (isFullHouse(hand)) {
-			return HandRank.FULL_HOUSE;
-		} else if (isFlush(hand)) {
-			return HandRank.FLUSH;
-		} else if (isStraight(hand)) {
-			return HandRank.STRAIGHT;
-		} else if (isThreeOfAKind(hand)) {
-			return HandRank.THREE_OF_A_KIND;
-		} else if (numOfPairs(hand) == 2) {
-			return HandRank.TWO_PAIR;
-		} else if (numOfPairs(hand) == 1) {
-			return HandRank.PAIR;
-		} 
-		return HandRank.HIGH_CARD;
-	}
-
-	//------------------------------------------------//
-	//Hand Rank Identifiers---------------------------//
-	//------------------------------------------------//
-
-	public boolean isStraight(Card[] hand) {
+	public boolean isStraight(Card[] hand, int[] scoreKeeper) {
 		int[] ranks = new int[5];
+		Card highestCard = new Card();
 		for (int i = 0; i < 5; i++) {
 			ranks[i] = hand[i].rank.ordinal();
+
+			if (hand[i].rank.ordinal() > highestCard.rank.ordinal()) {
+				highestCard = hand[i];
+			}
 		}
 
 		Arrays.sort(ranks);
 
-		for (int i = 0; i < 4; i++) {
-			if (ranks[i] + 1 != ranks[i + 1]) {
-				return false;
+		if (isStraightRoyal(hand, scoreKeeper)) {
+			return true;
+		} else {
+			for (int i = 0; i < 4; i++) {
+				if (ranks[i] + 1 != ranks[i + 1]) {
+					return false;
+				}
 			}
 		}
-
+		scoreKeeper[1] = highestCard.rank.ordinal();
+		scoreKeeper[6] = highestCard.suit.ordinal();
 		return true;
 	}
 
 	//------------------------------------------------//
-	public boolean isFlush(Card[] hand) {
+	public boolean isFlush(Card[] hand, int[] scoreKeeper) {
 		for (int i = 0; i < 4; i++) {
 			if (hand[i].suit.ordinal() != hand[i + 1].suit.ordinal()) {
 				return false;
 			}
 		}
+		getHighCard(hand, scoreKeeper);
 		return true;
 	}
 
 	//------------------------------------------------//
-	public boolean isStraightFlush(Card[] hand) {
-		return (isFlush(hand) && isStraight(hand));
+	//This method does NOT account for wrap around flushes!
+	public boolean isStraightFlush(Card[] hand, int[] scoreKeeper) {
+		return (isFlush(hand, scoreKeeper) && isStraight(hand, scoreKeeper));
 	}
 
 	//------------------------------------------------//
-	public boolean isStraightRoyalFlush(Card[] hand) {
+	public boolean isStraightRoyalFlush(Card[] hand, int[] scoreKeeper) {
 		int[] countsPerRank = new int[13];
+		int[] suitPerCard = new int[5];
+		int loopCounter = 0;
 		int[] cardsToCheck = {Rank.A.ordinal(), 
 				Rank.TEN.ordinal(), 
 				Rank.J.ordinal(),
@@ -170,19 +226,60 @@ public class HandAlyzer {
 
 		for (Card card : hand) {
 			countsPerRank[card.rank.ordinal()]++;
+			suitPerCard[loopCounter] = card.suit.ordinal();
+			loopCounter++;
 		}
 		for (int i : cardsToCheck) {
 			if (countsPerRank[i] != 1) {
 				return false;
 			}
 		}
-		return (isFlush(hand));
+
+		for (int i = 0; i < 4; i++) {
+			if (suitPerCard[i] != suitPerCard[i + 1]) {
+				return false;
+			}
+		}
+		scoreKeeper[1] = 14; //Ace High value hard coded, since it will be in every SRF
+		scoreKeeper[6] = hand[0].suit.ordinal(); 		
+		return (true);
 	}
 
 	//------------------------------------------------//
+	//To solve edge case where (non-flush, royal) Straights were not identified
+	//Catches straights in order of "10, J, Q, K, A" not caught by isStraight
+	public boolean isStraightRoyal(Card[] hand, int[] scoreKeeper) {
+		int[] countsPerRank = new int[13];
+		int[] cardsToCheck = {Rank.A.ordinal(), 
+				Rank.TEN.ordinal(), 
+				Rank.J.ordinal(),
+				Rank.Q.ordinal(),
+				Rank.K.ordinal()};
+		int aceSuit = 0;
+
+		for (Card card : hand) {
+			countsPerRank[card.rank.ordinal()]++;
+			if (card.rank.ordinal() == 0) aceSuit = card.suit.ordinal();				
+		}
+
+		for (int i : cardsToCheck) {
+			if (countsPerRank[i] != 1) {
+				return false;
+			}
+		}
+
+		scoreKeeper[1] = 14; //Ace High value hard coded, since it will be in every SRF
+		scoreKeeper[6] = aceSuit; 		
+		return (true);
+	}
+	//------------------------------------------------//
 	//Returns int for num of pairs, unlike rest returning bool!
-	public int numOfPairs(Card[] hand) {
+	public int numOfPairs(Card[] hand, int[] scoreKeeper) {
 		int numofPairs = 0;
+		int iterator = 0;
+		int kickerRank = 0;
+		int kickerSuit = 0;
+		int[] rankofPair = new int[2];
 		int[] countsPerRank = new int[13];
 		for (Card card : hand) {
 			countsPerRank[card.rank.ordinal()]++;
@@ -191,14 +288,32 @@ public class HandAlyzer {
 		for (int i = 0; i < 13; i++) {
 			if (countsPerRank[i] == 2) {
 				numofPairs++;
+				rankofPair[iterator] = i;
+				iterator++;
 			}
+			else if (countsPerRank[i] == 1) {
+				kickerRank = i;
+			}
+		}
+
+		for (Card card : hand) {
+			if (card.rank.ordinal() == kickerRank) {
+				scoreKeeper[6] = card.suit.ordinal();
+			}
+		}
+
+		if (numofPairs == 1) {
+			scoreKeeper[1] = rankofPair[0];
+		} else if (numofPairs == 1) {
+			scoreKeeper[1] = rankofPair[0];
+			scoreKeeper[2] = rankofPair[1];
 		}
 
 		return numofPairs;
 	}
 
 	//------------------------------------------------//
-	public boolean isThreeOfAKind(Card[] hand) {
+	public boolean isThreeOfAKind(Card[] hand, int[] scoreKeeper) {
 		int[] countsPerRank = new int[13];
 		for (Card card : hand) {
 			countsPerRank[card.rank.ordinal()]++;
@@ -206,23 +321,24 @@ public class HandAlyzer {
 
 		for (int i = 0; i < 13; i++) {
 			if (countsPerRank[i] == 3) {
+				getHighCard(hand, scoreKeeper);
 				return true;
 			}
 		}
-
 		return false;
 	}
 
 	//------------------------------------------------//
-	public boolean isFullHouse(Card[] hand) {
-		if (isThreeOfAKind(hand) && (numOfPairs(hand) == 1)) {
-			return true;
+	public boolean isFullHouse(Card[] hand, int[] scoreKeeper) {
+		if (isThreeOfAKind(hand, scoreKeeper) && (numOfPairs(hand, scoreKeeper) == 1)) {
+			getHighCard(hand, scoreKeeper);
+			return true; 
 		}
 		return false;
 	}
 
 	//------------------------------------------------//
-	public boolean isFourOfAKind(Card[] hand) {
+	public boolean isFourOfAKind(Card[] hand, int[] scoreKeeper) {
 		int[] countsPerRank = new int[13];
 		for (Card card : hand) {
 			countsPerRank[card.rank.ordinal()]++;
@@ -230,6 +346,7 @@ public class HandAlyzer {
 
 		for (int i = 0; i < 13; i++) {
 			if (countsPerRank[i] == 4) {
+				getHighCard(hand, scoreKeeper);
 				return true;
 			}
 		}
