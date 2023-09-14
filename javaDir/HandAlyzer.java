@@ -26,12 +26,14 @@ public class HandAlyzer {
 	//[4] = 4th highest Rank card (if needed, else 0)
 	//[5] = 5th highest Rank card (if needed, else 0)
 	//[6] = Suit of card in [1] // denoted as (0, D) (1, C) (2, H) (3, S)
-	int[] scoreKeeperP1 = new int[7];
-	int[] scoreKeeperP2 = new int[7];
-	int[] scoreKeeperP3 = new int[7];
-	int[] scoreKeeperP4 = new int[7];
-	int[] scoreKeeperP5 = new int[7];
-	int[] scoreKeeperP6 = new int[7];
+	int[] scoreKeeperP1 = {0, 0, 0, 0, 0, 0, 0};
+	int[] scoreKeeperP2 = {0, 0, 0, 0, 0, 0, 0};
+	int[] scoreKeeperP3 = {0, 0, 0, 0, 0, 0, 0};
+	int[] scoreKeeperP4 = {0, 0, 0, 0, 0, 0, 0};
+	int[] scoreKeeperP5 = {0, 0, 0, 0, 0, 0, 0};
+	int[] scoreKeeperP6 = {0, 0, 0, 0, 0, 0, 0};
+	int[][] scoreKeeperAll =  {scoreKeeperP1, scoreKeeperP2, scoreKeeperP3,
+								scoreKeeperP4, scoreKeeperP5, scoreKeeperP6};
 
 
 	//Holds HandRank enums in player order 1-6
@@ -79,12 +81,18 @@ public class HandAlyzer {
 	public void getFinalScorePrint() {
 	    String[] handStrings = new String[6];
 
-	    // Get hand rank and scoreKeeper info for scoring
+	    //Get hand rank and build strings for printing
 	    for (int i = 0; i < 6; i++) {
 	        int[] scoreKeeper = new int[7];
 	        HandRank rank = getHandRank(hands[i], scoreKeeper);
 	        playerHandRanks[i] = rank;
+	        this.scoreKeeperAll[i][0] = rank.ordinal();
+			
+			for (int j = 1; j < 7; j++){
+				this.scoreKeeperAll[i][j] = scoreKeeper[j]; 
+			}
 
+			//Build out Hands to print, stored in order of players 1->6
 	        StringBuilder handString = new StringBuilder();
 	        for (Card card : hands[i]) {
 	            handString.append(String.format("%4s", card.toString()));
@@ -92,27 +100,77 @@ public class HandAlyzer {
 	        handStrings[i] = handString.toString();
 	    }
 
-	    // Sort the hands in winning order based on hand rank
-	    for (int i = 0; i < 6; i++) {
-	        for (int j = i + 1; j < 6; j++) {
-	            if (playerHandRanks[i].ordinal() < playerHandRanks[j].ordinal()) {
-	                // Swap hand ranks
-	                HandRank temp = playerHandRanks[i];
-	                playerHandRanks[i] = playerHandRanks[j];
-	                playerHandRanks[j] = temp;
+		//////////////Sort out winners and implement tie breaking
+		int[] finalPlayerRankings = {0, 1, 2, 3, 4, 5};
 
-	                // Swap hand strings
-	                String tempStr = handStrings[i];
-	                handStrings[i] = handStrings[j];
-	                handStrings[j] = tempStr;
-	            }
+		for (int playerRankIndexLimit = 0; playerRankIndexLimit < 6 ;  playerRankIndexLimit++){
+			for(int currentPlayer = 0; currentPlayer < (5 - playerRankIndexLimit); currentPlayer++){
+				if (this.scoreKeeperAll[currentPlayer][0] < this.scoreKeeperAll[currentPlayer + 1][0]){
+					int temp = finalPlayerRankings[currentPlayer];
+					finalPlayerRankings[currentPlayer] = finalPlayerRankings[currentPlayer + 1];
+					finalPlayerRankings[currentPlayer + 1] = temp;
+				} 
+				//Tie Breaking
+				else if (this.scoreKeeperAll[currentPlayer][0] == this.scoreKeeperAll[currentPlayer + 1][0]){
+					for (int criteriaIndex = 1; criteriaIndex < 7; criteriaIndex++){
+						if(this.scoreKeeperAll[currentPlayer][criteriaIndex] < this.scoreKeeperAll[currentPlayer + 1][criteriaIndex]){
+							int temp = finalPlayerRankings[currentPlayer];
+							finalPlayerRankings[currentPlayer] = finalPlayerRankings[currentPlayer + 1];
+							finalPlayerRankings[currentPlayer + 1] = temp;
+							break;
+						} else if (this.scoreKeeperAll[currentPlayer][criteriaIndex] > this.scoreKeeperAll[currentPlayer + 1][criteriaIndex]){
+							break;
+						}
+					}
+				}
+			}
+		}
+		
+		//DEBUGGING PURPOSES
+		//Adds [0]1[2][3][4][5][6] section to printout, with the values of the player scoreKeeperAll[player][0-6]
+		for (int i = 0; i < 6 ; i++) {
+			String temp = handStrings[i] + " ";
+	        for (int j = 0; j < 7; j++) {
+	        	if (this.scoreKeeperAll[i][j] <10 ) {
+	        		temp += "[0" + this.scoreKeeperAll[i][j] + "]";
+	        	} else temp += "[" + this.scoreKeeperAll[i][j] + "]";
 	        }
-	    }
+	        handStrings[i] = temp;
+		}
 
-	    // Print the sorted hands with their ranks
+	//Previous sort method, not implementing tie breakers
+	    // //Sort the hands in winning order based on hand rank
+	    // for (int i = 0; i < 6; i++) {
+	    //     for (int j = i + 1; j < 6; j++) {
+	    //         if (playerHandRanks[i].ordinal() < playerHandRanks[j].ordinal()) {
+	    //             //Swap hand ranks
+	    //             HandRank temp = playerHandRanks[i];
+	    //             playerHandRanks[i] = playerHandRanks[j];
+	    //             playerHandRanks[j] = temp;
+
+	    //             //Swap hand strings
+	    //             String tempStr = handStrings[i];
+	    //             handStrings[i] = handStrings[j];
+	    //             handStrings[j] = tempStr;
+	    //         }
+		// 		if (playerHandRanks[i].ordinal() == playerHandRanks[j].ordinal()) {
+		// 			//Tie breaking, check down scoreKeeperAll[6 players][7 criteria]
+		// 		}
+	    //     }
+	    // }
+
+	    //Print the sorted hands with their ranks
 	    System.out.println("--- WINNING HAND ORDER ---");
-	    for (int i = 0; i < 6; i++) {
-	        System.out.println(handStrings[i] + " - " + handRanktoString(playerHandRanks[i]));
+	    for (int currentPlayer : finalPlayerRankings) {
+	        System.out.println(handStrings[currentPlayer] + " - " + handRanktoString(playerHandRanks[currentPlayer])
+			//Debugging step - print out 
+			
+			);
+	    }
+	    
+		//DEBUGGING PURPOSES
+	    for (int i = 0; i < 6 ; i++) {
+	    	System.out.print(finalPlayerRankings[i] + " ");
 	    }
 	}
 	//------------------------------------------------//
@@ -138,8 +196,12 @@ public class HandAlyzer {
 			return HandRank.TWO_PAIR;
 		} else if (numOfPairs(hand, scoreKeeper) == 1) {
 			return HandRank.PAIR;
-		} 
-		return HandRank.HIGH_CARD;
+		} else if (scoreKeeper[0] == 0) {
+			getHighCard(hand, scoreKeeper);
+			getHighCardTieBreakers(hand, scoreKeeper);
+
+		}		
+			return HandRank.HIGH_CARD;
 	}
 
 	//------------------------------------------------//
@@ -162,10 +224,28 @@ public class HandAlyzer {
 				highCard = card;
 			}
 		}	
+		
+		//Keeps Aces High for high card
+		
 		scoreKeeper[1] = highCard.rank.ordinal();
 		scoreKeeper[6] = highCard.suit.ordinal();
 
 		return highCard;
+	}
+	
+	public void getHighCardTieBreakers(Card[] hand, int[] scoreKeeper) {
+		int[] ranks = new int[5];
+		for (int i = 0; i < 5; i++) {
+			ranks[i] = hand[i].rank.ordinal();
+		}
+		Arrays.sort(ranks);
+		int sKIndex = 2;
+		
+		for (int i = 4; i > 0; i--) {
+			scoreKeeper[sKIndex] = ranks[i];
+			sKIndex++;
+		}
+
 	}
 
 	//------------------------------------------------//
@@ -303,6 +383,7 @@ public class HandAlyzer {
 		}
 
 		if (numofPairs == 1) {
+			getHighCardTieBreakers(hand, scoreKeeper);
 			scoreKeeper[1] = rankofPair[0];
 		} else if (numofPairs == 1) {
 			scoreKeeper[1] = rankofPair[0];
