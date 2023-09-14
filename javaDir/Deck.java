@@ -65,8 +65,8 @@ class Card {
 		case " 9": return Rank.NINE;
 		case "10": return Rank.TEN;
 		case " J": return Rank.J;
-		case " Q": return Rank.K;
-		case " K": return Rank.Q;
+		case " Q": return Rank.Q;
+		case " K": return Rank.K;
 		default: return null;
 		}
 	}
