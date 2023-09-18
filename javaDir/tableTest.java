@@ -19,7 +19,7 @@ public class tableTest {
 		//Test Decks to skip console command, 
 		//set gameMode to false if skipping console command
 		//fileName = "handsets/test.txt";
-		fileName = "handsets/threeofakind.txt";
+		//fileName = "handsets/threeofakind.txt";
 		//fileName = "handsets/testDuplicate.txt";
 
 		//Create 2d array for players decks
@@ -85,16 +85,16 @@ public class tableTest {
 	//------------------------------------------------//
 
 	private static Card[][] importDeck(String fileName, Card[][] hands) throws Exception {
-		//This method inputs the name of a file and existing [6][5] array of players hands
+		//This method arguements are the name of a file and existing [6][5] array of players hands
 		//It parses files in the format " RS, RS, RS, RS, RS"
 		//The String parts are passed through a card constructor then added to hands array
-		//Furthermore, 
+		//Furthermore, each card is checked if it's a duplicate to display after printing deck
 		System.out.println("*** USING TEST DECK ***\n");
 		System.out.println("*** File: " + fileName);
 
 		//Queue to store cards after construction
 		Queue<Card> importedCards = new LinkedList<>();
-		//Duplication check variables
+		//Initialize Duplication check variables
 		boolean duplicateCardBool = false;
 		String duplicateCardStr = "";
 
