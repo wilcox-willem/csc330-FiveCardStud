@@ -91,7 +91,7 @@ class Card {
 	//------------------------------------------------//
 	@Override
 	public String toString() {
-		//names cards in the format "RS", rank suit
+		//Uses switch cases to name cards in the format RS, rank suit
 		String cardTitle = " ";
 
 		switch (this.rank) {
