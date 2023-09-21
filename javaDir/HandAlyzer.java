@@ -199,23 +199,41 @@ public class HandAlyzer {
 	//Then if a tie, by suit D,C,H,S (L -> H)
 	public Card getHighCard(Card[] playerHand, int[] scoreKeeper) {
 		Card highCard = new Card();
+		boolean isAce = false;
 		for (Card card : playerHand) {
-			if (highCard.rank.ordinal() < card.rank.ordinal())
+			//check for aces, if found only looks for other possible aces to compare
+			if (card.rank.ordinal() == 0){
+				if (highCard.rank.ordinal() != 0){
+					highCard = card;
+				}
+				if (card.suit.ordinal() > highCard.suit.ordinal()){
+					highCard = card;
+				}
+				isAce = true;
+			}
+			//else, find highest rank card
+			else if (highCard.rank.ordinal() < card.rank.ordinal())
 			{
 				highCard = card;
 			}
+			//if tied for rank, compare suit
 			else if ((highCard.rank.ordinal() == card.rank.ordinal()) 
 					&& (highCard.suit.ordinal() < card.suit.ordinal()))
 			{
 				highCard = card;
 			}
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 0449f2369367c623e90b0a24aebb28eed3801559
 		}	
 
 		//Keeps Aces High for high card
+		if (isAce){
+			scoreKeeper[1] = 14;
+		} else scoreKeeper[1] = highCard.rank.ordinal();
 
-		scoreKeeper[1] = highCard.rank.ordinal();
 		scoreKeeper[6] = highCard.suit.ordinal();
 
 		return highCard;
@@ -227,14 +245,23 @@ public class HandAlyzer {
 			ranks[i] = hand[i].rank.ordinal();
 			//For ties, ranks ace as highest value
 			if (ranks[i] == 0){
+<<<<<<< HEAD
 				ranks[i] = 13;
+=======
+				ranks[i] = 14;
+>>>>>>> 0449f2369367c623e90b0a24aebb28eed3801559
 			}
 		}
-		Arrays.sort(ranks);
+		Arrays.sort(ranks); //sorted [low to high]
 		int sKIndex = 2;
 
+<<<<<<< HEAD
 		//Reverses the array from [low to high], to, [high to low]
 		for (int i = 4; i > 0; i--) {
+=======
+		//Reverses the array from [low to high], to, [high to low] when assigning values to scoreKeeper[]
+		for (int i = 3; i >= 0; i--) {
+>>>>>>> 0449f2369367c623e90b0a24aebb28eed3801559
 			scoreKeeper[sKIndex] = ranks[i];
 			sKIndex++;
 		}
@@ -264,8 +291,8 @@ public class HandAlyzer {
 				}
 			}
 		}
-		scoreKeeper[1] = highestCard.rank.ordinal();
-		scoreKeeper[6] = highestCard.suit.ordinal();
+
+		getHighCard(hand, scoreKeeper);
 		return true;
 	}
 
@@ -351,7 +378,6 @@ public class HandAlyzer {
 		int numofPairs = 0;
 		int iterator = 0;
 		int kickerRank = 0;
-		int kickerSuit = 0;
 		int[] rankofPair = new int[2];
 		int[] countsPerRank = new int[13];
 		for (Card card : hand) {
@@ -361,7 +387,11 @@ public class HandAlyzer {
 		for (int i = 0; i < 13; i++) {
 			if (countsPerRank[i] == 2) {
 				numofPairs++;
-				rankofPair[iterator] = i;
+				//check for aces, make high
+				if (i == 0){
+					rankofPair[iterator] = 14;
+				} else rankofPair[iterator] = i;
+			
 				iterator++;
 			}
 			else if (countsPerRank[i] == 1) {
@@ -376,11 +406,33 @@ public class HandAlyzer {
 		}
 
 		if (numofPairs == 1) {
-			getHighCardTieBreakers(hand, scoreKeeper);
+			//UPDATE SCOREKEEPER
+			int[] ranks = new int[5];
+			for (int i = 0; i < 5; i++) {
+				ranks[i] = hand[i].rank.ordinal();
+				//For ties, ranks ace as highest value
+				if (ranks[i] == 0){
+					ranks[i] = 14;
+				}
+			}
+			Arrays.sort(ranks); //sorted [low to high]
+			int sKIndex = 2;
+
+			//Reverses the array from [low to high], to, [high to low] when assigning values to scoreKeeper[]
+			//Only assigns value if the rank does not match the pair
+			for (int i = 4; i >= 0; i--) {
+				if (ranks[i] != rankofPair[0]){
+				scoreKeeper[sKIndex] = ranks[i];
+				sKIndex++;
+				}
+			}
+			
+			//FINISHED UPDATE
 			scoreKeeper[1] = rankofPair[0];
+
 		} else if (numofPairs == 2) {
-			scoreKeeper[1] = rankofPair[0];
-			scoreKeeper[2] = rankofPair[1];
+			scoreKeeper[1] = rankofPair[1]; //higher value pair first
+			scoreKeeper[2] = rankofPair[0]; //lower value pair second
 		}
 
 		return numofPairs;
