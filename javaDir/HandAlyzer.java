@@ -209,6 +209,8 @@ public class HandAlyzer {
 			{
 				highCard = card;
 			}
+
+
 		}	
 
 		//Keeps Aces High for high card
@@ -223,10 +225,15 @@ public class HandAlyzer {
 		int[] ranks = new int[5];
 		for (int i = 0; i < 5; i++) {
 			ranks[i] = hand[i].rank.ordinal();
+			//For ties, ranks ace as highest value
+			if (ranks[i] == 0){
+				ranks[i] = 13;
+			}
 		}
 		Arrays.sort(ranks);
 		int sKIndex = 2;
 
+		//Reverses the array from [low to high], to, [high to low]
 		for (int i = 4; i > 0; i--) {
 			scoreKeeper[sKIndex] = ranks[i];
 			sKIndex++;
@@ -276,7 +283,7 @@ public class HandAlyzer {
 	//------------------------------------------------//
 	//This method does NOT account for wrap around flushes!
 	public boolean isStraightFlush(Card[] hand, int[] scoreKeeper) {
-		return (isFlush(hand, scoreKeeper) && isStraight(hand, scoreKeeper));
+		return (isFlush(hand, scoreKeeper) && isStraight(hand, scoreKeeper));                                                                                                                                                                                
 	}
 
 	//------------------------------------------------//
@@ -306,7 +313,7 @@ public class HandAlyzer {
 				return false;
 			}
 		}
-		scoreKeeper[1] = 14; //Ace High value hard coded, since it will be in every SRF
+		
 		scoreKeeper[6] = hand[0].suit.ordinal(); 		
 		return (true);
 	}

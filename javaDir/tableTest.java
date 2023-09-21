@@ -19,7 +19,7 @@ public class tableTest {
 		//Test Decks to skip console command, 
 		//set gameMode to false if skipping console command
 		//fileName = "handsets/test.txt";
-		fileName = "handsets/threeofakind.txt";
+		//fileName = "handsets/threeofakind.txt";
 		//fileName = "handsets/testDuplicate.txt";
 
 		//Create 2d array for players decks
