@@ -1,0 +1,10 @@
+The C# variant runs almost exactly like my java version. The biggest differences are for and foreach loops, as well as some of the libraries to use
+
+To compile the project in Cobra
+_______________________________
+
+mcs tableTest.cs Deck.cs HandAlyzer.cs
+
+mono tableTest.exe
+ ~ or ~
+mono tableTest.exe relativeFilePath/fileName
