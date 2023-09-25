@@ -3,32 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 
 // Define enums for Rank and Suit
-public enum Rank
-{
+public enum Rank {
     A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K
 }
 
-public enum Suit
-{
+public enum Suit {
     D, C, H, S
 }
 
 // Define Card class
-public class Card
-{
+public class Card {
     public Rank Rank { get; set; }
     public Suit Suit { get; set; }
 
     // Default constructor is card of lowest value in deck (AD)
-    public Card()
-    {
+    public Card() {
         Rank = Rank.A;
         Suit = Suit.D;
     }
 
     // Constructor with given rank and suit
-    public Card(Rank rank, Suit suit)
-    {
+    public Card(Rank rank, Suit suit) {
         Rank = rank;
         Suit = suit;
     }
@@ -37,29 +32,24 @@ public class Card
     // Format of strings is as follows
     // rankSample = "R" // where 10 is "10" and not " 10"
     // suitSample = "s"
-    public Card(string rankSample, string suitSample)
-    {
+    public Card(string rankSample, string suitSample)  {
         Rank = ParseRank(rankSample);
         Suit = ParseSuit(suitSample);
     }
 
     // Getters for rank and suit
-    public Rank GetRank()
-    {
+    public Rank GetRank() {
         return Rank;
     }
 
-    public Suit GetSuit()
-    {
+    public Suit GetSuit() {
         return Suit;
     }
 
-    public Rank ParseRank(string rankParse)
-    {
+    public Rank ParseRank(string rankParse) {
     
         // Converts string input to Rank.rank
-        switch (rankParse)
-        {
+        switch (rankParse) {
             case " A": return Rank.A; 
             case " 2": return Rank.TWO;
             case " 3": return Rank.THREE;
@@ -77,12 +67,10 @@ public class Card
         }
     }
 
-    public Suit ParseSuit(string suitParse)
-    {
+    public Suit ParseSuit(string suitParse) {
             
         // Converts string input to Suit.suit
-        switch (suitParse)
-        {
+        switch (suitParse) {
             case "D": return Suit.D;
             case "C": return Suit.C;
             case "H": return Suit.H;
@@ -91,18 +79,15 @@ public class Card
         }
     }
 
-    public bool Equals(Card card)
-    {
+    public bool Equals(Card card) {
         return ((Rank == card.Rank) && (Suit == card.Suit));
     }
 
-    public override string ToString()
-    {
+    public override string ToString() {
         // Uses switch cases to name cards in the format RS, rank suit
         string cardTitle = " ";
 
-        switch (Rank)
-        {
+        switch (Rank) {
             case Rank.A:
                 cardTitle += "A"; break;
             case Rank.TWO:
@@ -131,8 +116,7 @@ public class Card
                 cardTitle += "K"; break;
         }
 
-        switch (Suit)
-        {
+        switch (Suit) {
             case Suit.D:
                 cardTitle += "D"; break;
             case Suit.C:
@@ -148,17 +132,13 @@ public class Card
 }
 
 // Define Deck class
-public class Deck
-{
+public class Deck {
     private List<Card> cards = new List<Card>();
 
-    public Deck()
-    {
+    public Deck() {
         // Make deck
-        foreach (Suit suit in Enum.GetValues(typeof(Suit)))
-        {
-            foreach (Rank rank in Enum.GetValues(typeof(Rank)))
-            {
+        foreach (Suit suit in Enum.GetValues(typeof(Suit))) {
+            foreach (Rank rank in Enum.GetValues(typeof(Rank))) {
                 cards.Add(new Card(rank, suit));
             }
         }
@@ -166,47 +146,37 @@ public class Deck
         Shuffle();
     }
 
-    public void PrintDeck()
-    {
+    public void PrintDeck() {
         int i = 0;
 
-        if (cards.Count == 52)
-        {
-            foreach (Card card in cards)
-            {
+        if (cards.Count == 52) {
+            foreach (Card card in cards) {
                 Console.Write(card.ToString());
                 i++;
-                if (i % 13 == 0)
-                {
+                if (i % 13 == 0) {
                     Console.Write("\n");
                 }
             }
         }
-        else
-        {
-            foreach (Card card in cards)
-            {
+        else {
+            foreach (Card card in cards) {
                 Console.Write(card.ToString());
             }
         }
     }
 
-    public Card DealCard()
-    {
-        if (cards.Any())
-        {
+    public Card DealCard() {
+        if (cards.Any()) {
             Card card = cards.Last();
             cards.RemoveAt(cards.Count - 1);
             return card;
         } else return null;
     }
 
-    private void Shuffle()
-    {
+    private void Shuffle() {
         Random rng = new Random();
         int n = cards.Count;
-        while (n > 1)
-        {
+        while (n > 1) {
             n--;
             int k = rng.Next(n + 1);
             Card value = cards[k];

@@ -3,10 +3,8 @@ using System.Linq;
 using System.Text;
 using System.Collections.Generic;
 
-public class HandAlyzer
-{
-    public enum HandRank
-    {
+public class HandAlyzer {
+    public enum HandRank {
         HIGH_CARD, PAIR, TWO_PAIR, THREE_OF_A_KIND, STRAIGHT,
         FLUSH, FULL_HOUSE, FOUR_OF_A_KIND, STRAIGHT_FLUSH, ROYAL_STRAIGHT_FLUSH
     }
@@ -44,11 +42,9 @@ public class HandAlyzer
 
     // Constructor ----------------------------------------//
     // Can only be constructed with [6 player hands][5 Cards a hand]
-    public HandAlyzer(Card[][] hands)
-    {
+    public HandAlyzer(Card[][] hands) {
         this.hands = hands;
-        for (int i = 0; i < 5; i++)
-        {
+        for (int i = 0; i < 5; i++) {
             hand1[i] = hands[0][i];
             hand2[i] = hands[1][i];
             hand3[i] = hands[2][i];
@@ -209,14 +205,12 @@ public class HandAlyzer
 				isAce = true;
 			}
 			//else, find highest rank card
-			else if (highCard.Rank < card.Rank)
-			{
+			else if (highCard.Rank < card.Rank) {
 				highCard = card;
 			}
 			//if tied for rank, compare suit
 			else if (((int)highCard.Rank == (int)card.Rank) 
-					&& ((int)highCard.Suit < (int)card.Suit))
-			{
+					&& ((int)highCard.Suit < (int)card.Suit)) {
 				highCard = card;
 			}
 

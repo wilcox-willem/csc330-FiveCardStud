@@ -3,16 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-class TableTest
-{
-    static void Main(string[] args)
-    {
+class TableTest {
+    static void Main(string[] args) {
         // Initialize gamemode and console input
         bool gameMode = true; // T = Random, F = PreFab Deck
         string fileName = " ";
 
-        if (args.Length > 0)
-        {
+        if (args.Length > 0) {
             gameMode = false;
             fileName = args[0];
         }
@@ -25,16 +22,14 @@ class TableTest
 
         // Create 2d array for players decks
         Card[][] hands = new Card[6][];
-        for (int i = 0; i < 6; i++)
-        {
+        for (int i = 0; i < 6; i++) {
             hands[i] = new Card[5];
         }
 
         Console.WriteLine("*** P O K E R  H A N D  A N A L Y Z E R ***\n\n\n");
 
         // Deal cards based on game mode
-        if (gameMode)
-        {
+        if (gameMode) {
             // Announce game mode and print deck
             Console.WriteLine("*** USING RANDOMIZED DECK OF CARDS ***"
                     + "\n\n*** Shuffled 52 card deck:");
@@ -55,8 +50,7 @@ class TableTest
             Console.WriteLine("\n*** Here is what remains in the deck...");
             deck.PrintDeck();
         }
-        else
-        {
+        else {
             // Deal cards from prefab deck
             hands = ImportDeck(fileName, hands);
 
@@ -76,18 +70,15 @@ class TableTest
     {
         Console.WriteLine("\n*** Here are the six hands...");
 
-        for (int i = 0; i < 6; i++)
-        {
-            for (int j = 0; j < 5; j++)
-            {
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 5; j++) {
                 Console.Write(hands[i][j].ToString());
             }
             Console.Write("\n");
         }
     }
 
-    static Card[][] ImportDeck(string fileName, Card[][] hands)
-    {
+    static Card[][] ImportDeck(string fileName, Card[][] hands) {
         Console.WriteLine("*** USING TEST DECK ***\n");
         Console.WriteLine("*** File: " + fileName);
 
@@ -100,12 +91,10 @@ class TableTest
         // Read lines from the file
         string[] lines = File.ReadAllLines(fileName);
 
-        foreach (string line in lines)
-        {
+        foreach (string line in lines) {
             Console.WriteLine(line);
             string[] parts = line.Split(',');
-            foreach (string part in parts)
-            {
+            foreach (string part in parts) {
             
                 // Splits " RS" into " R", "S" to separate Rank and Suit
                 string rankParse = part.Substring(0, 2); 
@@ -116,10 +105,8 @@ class TableTest
                 // interpret split parts to Rank & Suit enums
                 Card inputCard = new Card(rankParse, suitParse);
                 // Check for duplicates pt1, if found return dupCardBool true
-                foreach (Card checkCard in importedCards)
-                {
-                    if (inputCard.Equals(checkCard))
-                    {
+                foreach (Card checkCard in importedCards) {
+                    if (inputCard.Equals(checkCard)) {
                         duplicateCardBool = true;
                         duplicateCardStr = inputCard.ToString();
                     }
@@ -132,8 +119,7 @@ class TableTest
         }
 
         // Check for duplicates pt2
-        if (duplicateCardBool)
-        {
+        if (duplicateCardBool) {
             Console.WriteLine("*** ERROR - DUPLICATED CARD FOUND IN DECK ***"
                     + "\n\n*** DUPLICATE: " + duplicateCardStr + " ***\n");
             Environment.Exit(0);
@@ -141,8 +127,7 @@ class TableTest
 
         // Deal cards to players from importedCards Queue
         // For each 6 players, fills all 5 slots with a card then goes to next player
-        for (int i = 0; i < 6; i++)
-        {
+        for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 5; j++)
             {
                 hands[i][j] = importedCards.Dequeue();
