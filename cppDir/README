@@ -1,0 +1,20 @@
+	• To compile Deck
+		○ g++ -c -o Deck Deck.cpp
+
+	• To compile HandAlyzer
+		○ g++ -c -o HandAlyzer HandAlyzer.cpp
+
+
+	• To compile tableTest and run
+		○ g++ tableTest.cpp Deck HandAlyzer -o tableTest
+		- Run with 
+		tableTest
+		 ~ OR ~
+		tableTest relativePathToFile/fileName
+
+
+[wilcox_we@cobra cppDir]$ g++ -c HandAlyzer.cpp -o HandAlyzer
+[wilcox_we@cobra cppDir]$ g++ -c Deck.cpp -o Deck
+[wilcox_we@cobra cppDir]$ g++ tableTest.cpp HandAlyzer Deck -o tableTest
+[wilcox_we@cobra cppDir]$ tableTest
+[wilcox_we@cobra cppDir]$ tableTest ./handsets/test
