@@ -3,18 +3,21 @@
 
 using namespace std;
 
-// Define enums for cards
-enum class Rank {
+enum Rank {
     A, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K
 };
 
-enum class Suit {
+enum Suit {
     D, C, H, S
 };
+
 
 // Class declarations
 class Card {
 public:
+
+// Define enums for cards
+
     Rank rank;
     Suit suit;
 
@@ -26,6 +29,9 @@ public:
     // Getters
     Rank getRank() const;
     Suit getSuit() const;
+    int getRankInt() const;
+    int getSuitInt() const;
+
 
     // Methods
     Rank parseRank(const string& rankParse) const;

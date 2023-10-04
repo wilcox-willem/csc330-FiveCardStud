@@ -2,7 +2,8 @@
 #include <fstream>
 #include <vector>
 #include <string>
-#include "Deck.cpp"
+//#include "Deck.h"
+#include "HandAlyzer.h"
 
 using namespace std;
 
@@ -28,15 +29,12 @@ int main(int argc, char* argv[]) {
         Deck deck;
         deck.printDeck();
 
-        for (int i = 0; i < 5; i++) {
-            hands[0][i] = deck.dealCard();
-            hands[1][i] = deck.dealCard();
-            hands[2][i] = deck.dealCard();
-            hands[3][i] = deck.dealCard();
-            hands[4][i] = deck.dealCard();
-            hands[5][i] = deck.dealCard();
+        for (int playerIndex = 0; playerIndex < 6; playerIndex++){
+          for (int i = 0; i < 5; i++) {
+              hands[playerIndex][i] = deck.dealCard();
+          }
         }
-
+      
         printHands(hands);
 
         cout << "\n*** Here is what remains in the deck..." << endl;
@@ -46,10 +44,10 @@ int main(int argc, char* argv[]) {
         printHands(hands);
     }
 
-    // // Create analyzer to analyze the entire set of hands, then print results
-    // HandAlyzer analyzer(hands);
-    // cout << "\n";
-    // analyzer.getFinalScorePrint();
+    // Create analyzer to analyze the entire set of hands, then print results
+    HandAlyzer analyzer(hands);
+    cout << "\n";
+    analyzer.getFinalScorePrint();
 
     return 0;
 }

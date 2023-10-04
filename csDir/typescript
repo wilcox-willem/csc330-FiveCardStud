@@ -1,0 +1,120 @@
+Script started on Thu 21 Sep 2023 11:25:57 PM EDT
+]0;wilcox_we@cobra:~/FCWW/csDir[?1034h[wilcox_we@cobra csDir]$ mono tableTest.exe handsets/threeofakindestDuplicates[K.txt[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cls[Kcp  /home/wilcox_we/FCWW/javaDir/handsets/ .[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[10Pmono tableTest.exe handsets/tester[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cls[Kcp -r /home/wilcox_we/FCWW/javaDir/handsets/ .[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C-help[K[2Phelpmono tableTest.exe /handsets/tester[K /handsets/tester.handsets/tester[10Ptester[Kcs tableTest.cs Deck.cs HandAlyzer.cs[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[20Pvim HandAlyzer.cs ls[Kvim HandAlyzer.cs mcs tableTest.cs Deck.cs HandAlyzer.cs
+]0;wilcox_we@cobra:~/FCWW/csDir[wilcox_we@cobra csDir]$ mcs tableTest.cs Deck.cs HandAlyzer.cs[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Kmcs tableTest.cs Deck.cs HandAlyzer.cs[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cono tableTest.exe handsets/threeofakindestDuplicates[2Phreeofakind[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K
+*** P O K E R  H A N D  A N A L Y Z E R ***
+
+
+
+*** USING RANDOMIZED DECK OF CARDS ***
+
+*** Shuffled 52 card deck:
+ 7C 8C 6D 8H 3S 3H 5C KH 9C 4S 5H 5D 8D
+ QH 3C QD JH 7S 9D 10H 10C 9H AS 10S 2H 2S
+ 4C KC 6C QC 4H KS QS 9S 10D 6H 2C JD 3D
+ AD 7H AH 7D 8S AC JC KD JS 5S 6S 2D 4D
+
+*** Here are the six hands...
+ 4D JC AD 9S KC
+ 2D AC 3D QS 4C
+ 6S 8S JD KS 2S
+ 5S 7D 2C 4H 2H
+ JS AH 6H QC 10S
+ KD 7H 10D 6C AS
+
+*** Here is what remains in the deck...
+ 7C 8C 6D 8H 3S 3H 5C KH 9C 4S 5H 5D 8D QH 3C QD JH 7S 9D 10H 10C 9H
+
+--- WINNING HAND ORDER ---
+  5S  7D  2C  4H  2H [01][01][06][04][03][00][00] - Pair
+  4D  JC  AD  9S  KC [00][14][12][10][08][03][01] - High Card
+  KD  7H 10D  6C  AS [00][14][12][09][06][05][03] - High Card
+  JS  AH  6H  QC 10S [00][14][11][10][09][05][01] - High Card
+  2D  AC  3D  QS  4C [00][14][11][03][02][01][03] - High Card
+  6S  8S  JD  KS  2S [00][12][10][07][05][01][03] - High Card
+]0;wilcox_we@cobra:~/FCWW/csDir[wilcox_we@cobra csDir]$ mono tableTest.execs tableTest.cs Deck.cs HandAlyzer.cs[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cono tableTest.exe handsets/threeofakind
+*** P O K E R  H A N D  A N A L Y Z E R ***
+
+
+
+*** USING TEST DECK ***
+
+*** File: handsets/threeofakind
+ AD, AH, AC, AS, 2C
+ JD, JH, JC, QS, 3C
+ 4D, 4H, 4C, 7S, 5C
+ 7D, 7H, 7C, 4S, 2S
+ 6D, 6H, 6C, 6S, KS
+ QD, QH, QC, 5S,10S
+
+*** Here are the six hands...
+ AD AH AC AS 2C
+ JD JH JC QS 3C
+ 4D 4H 4C 7S 5C
+ 7D 7H 7C 4S 2S
+ 6D 6H 6C 6S KS
+ QD QH QC 5S 10S
+
+
+--- WINNING HAND ORDER ---
+  AD  AH  AC  AS  2C [07][14][00][00][00][00][01] - Four of a Kind
+  6D  6H  6C  6S  KS [07][12][00][00][00][00][03] - Four of a Kind
+  QD  QH  QC  5S 10S [03][11][11][11][09][04][02] - Three of a Kind
+  JD  JH  JC  QS  3C [03][11][10][10][10][02][03] - Three of a Kind
+  7D  7H  7C  4S  2S [03][06][06][06][03][01][02] - Three of a Kind
+  4D  4H  4C  7S  5C [03][06][04][03][03][03][03] - Three of a Kind
+]0;wilcox_we@cobra:~/FCWW/csDir[wilcox_we@cobra csDir]$ mono tableTest.exe handsets/threeofakind[Kcs tableTest.cs Deck.cs HandAlyzer.cs[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cono tableTest.exe handsets/threeofakindestDuplicates
+*** P O K E R  H A N D  A N A L Y Z E R ***
+
+
+
+*** USING TEST DECK ***
+
+*** File: handsets/testDuplicates
+10H, JC, JH, 4C, 4S
+ 9S, AS, 2C, 4D, 7C
+ 5C, JS, 6C,10S,10C
+ AH, 2H, 3H, 4H, 5H
+ AC, KD, 3H, JD,10D
+ 8H, 8C, 8D, 3D, 3S
+*** ERROR - DUPLICATED CARD FOUND IN DECK ***
+
+*** DUPLICATE:  3H ***
+
+]0;wilcox_we@cobra:~/FCWW/csDir[wilcox_we@cobra csDir]$ mono tableTest.exe handsets/testDuplicates[2Phreeofakind[Kcs tableTest.cs Deck.cs HandAlyzer.cs[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cono tableTest.exe handsets/threeofakindestDuplicates[K.txt[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cls[Kcp  /home/wilcox_we/FCWW/javaDir/handsets/ .[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[10Pmono tableTest.exe handsets/tester
+*** P O K E R  H A N D  A N A L Y Z E R ***
+
+
+
+*** USING TEST DECK ***
+
+*** File: handsets/tester
+
+Unhandled Exception:
+System.IO.FileNotFoundException: Could not find file "/home/wilcox_we/FCWW/csDir/handsets/tester"
+File name: '/home/wilcox_we/FCWW/csDir/handsets/tester'
+  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.Boolean anonymous, System.IO.FileOptions options) [0x0019e] in <5dfd69ae4e3b402db546d8ded6fc755e>:0 
+  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.IO.FileOptions options) [0x00000] in <5dfd69ae4e3b402db546d8ded6fc755e>:0 
+  at (wrapper remoting-invoke-with-check) System.IO.FileStream..ctor(string,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare,int,System.IO.FileOptions)
+  at System.IO.StreamReader..ctor (System.String path, System.Text.Encoding encoding, System.Boolean detectEncodingFromByteOrderMarks, System.Int32 bufferSize) [0x00055] in <5dfd69ae4e3b402db546d8ded6fc755e>:0 
+  at System.IO.StreamReader..ctor (System.String path, System.Text.Encoding encoding) [0x00000] in <5dfd69ae4e3b402db546d8ded6fc755e>:0 
+  at (wrapper remoting-invoke-with-check) System.IO.StreamReader..ctor(string,System.Text.Encoding)
+  at System.IO.File.InternalReadAllLines (System.String path, System.Text.Encoding encoding) [0x00006] in <5dfd69ae4e3b402db546d8ded6fc755e>:0 
+  at System.IO.File.ReadAllLines (System.String path) [0x0002c] in <5dfd69ae4e3b402db546d8ded6fc755e>:0 
+  at TableTest.ImportDeck (System.String fileName, Card[][] hands) [0x00028] in <c37b5e6a3abc445fb703fa6567b5bc7b>:0 
+  at TableTest.Main (System.String[] args) [0x000b7] in <c37b5e6a3abc445fb703fa6567b5bc7b>:0 
+[ERROR] FATAL UNHANDLED EXCEPTION: System.IO.FileNotFoundException: Could not find file "/home/wilcox_we/FCWW/csDir/handsets/tester"
+File name: '/home/wilcox_we/FCWW/csDir/handsets/tester'
+  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.Boolean anonymous, System.IO.FileOptions options) [0x0019e] in <5dfd69ae4e3b402db546d8ded6fc755e>:0 
+  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.IO.FileOptions options) [0x00000] in <5dfd69ae4e3b402db546d8ded6fc755e>:0 
+  at (wrapper remoting-invoke-with-check) System.IO.FileStream..ctor(string,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare,int,System.IO.FileOptions)
+  at System.IO.StreamReader..ctor (System.String path, System.Text.Encoding encoding, System.Boolean detectEncodingFromByteOrderMarks, System.Int32 bufferSize) [0x00055] in <5dfd69ae4e3b402db546d8ded6fc755e>:0 
+  at System.IO.StreamReader..ctor (System.String path, System.Text.Encoding encoding) [0x00000] in <5dfd69ae4e3b402db546d8ded6fc755e>:0 
+  at (wrapper remoting-invoke-with-check) System.IO.StreamReader..ctor(string,System.Text.Encoding)
+  at System.IO.File.InternalReadAllLines (System.String path, System.Text.Encoding encoding) [0x00006] in <5dfd69ae4e3b402db546d8ded6fc755e>:0 
+  at System.IO.File.ReadAllLines (System.String path) [0x0002c] in <5dfd69ae4e3b402db546d8ded6fc755e>:0 
+  at TableTest.ImportDeck (System.String fileName, Card[][] hands) [0x00028] in <c37b5e6a3abc445fb703fa6567b5bc7b>:0 
+  at TableTest.Main (System.String[] args) [0x000b7] in <c37b5e6a3abc445fb703fa6567b5bc7b>:0 
+]0;wilcox_we@cobra:~/FCWW/csDir[wilcox_we@cobra csDir]$ quit[K[K[K[Kexit
+exit
+
+Script done on Thu 21 Sep 2023 11:26:49 PM EDT
