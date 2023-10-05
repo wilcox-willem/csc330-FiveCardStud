@@ -100,18 +100,18 @@ public class HandAlyzer {
 			handStrings[i] = handString.toString();
 		}
 
-		//DEBUGGING PURPOSES
-		//Adds [0]1[2][3][4][5][6] section to printout, with the values of the player scoreKeeperAll[player][0-6]
-		for (int i = 0; i < 6 ; i++) {
-			String temp = handStrings[i] + " ";
-			for (int j = 0; j < 7; j++) {
-				if (this.scoreKeeperAll[i][j] <10 ) {
-					temp += "[0" + this.scoreKeeperAll[i][j] + "]";
-				} else temp += "[" + this.scoreKeeperAll[i][j] + "]";
-			}
-			handStrings[i] = temp;
-		}
-		//END DEBUGGING STRING APPENDER
+		// //DEBUGGING PURPOSES
+		// //Adds [0]1[2][3][4][5][6] section to printout, with the values of the player scoreKeeperAll[player][0-6]
+		// for (int i = 0; i < 6 ; i++) {
+		// 	String temp = handStrings[i] + " ";
+		// 	for (int j = 0; j < 7; j++) {
+		// 		if (this.scoreKeeperAll[i][j] <10 ) {
+		// 			temp += "[0" + this.scoreKeeperAll[i][j] + "]";
+		// 		} else temp += "[" + this.scoreKeeperAll[i][j] + "]";
+		// 	}
+		// 	handStrings[i] = temp;
+		// }
+		// //END DEBUGGING STRING APPENDER
 
 		//////////////Sort out winners and implement tie breaking
 		for (int playerRankIndexLimit = 0; playerRankIndexLimit < 6 ;  playerRankIndexLimit++){
