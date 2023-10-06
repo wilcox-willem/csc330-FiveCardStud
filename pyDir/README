@@ -1,0 +1,6 @@
+To run in bash
+	python3 tableTest.py
+
+	~or~ 
+
+	python3 tableTest.py relativeFilePath/fileName
