@@ -1,0 +1,17 @@
+README
+
+First, to set the correct path for test files, go to line 742 of tableTest.f08 and adjust 
+
+	character(len=*), parameter :: file_path
+
+as needed. Whatever console output is used later will fill the remainder of file_path.
+
+
+To compile:
+	gfortran tableTest.f08 -o tableTest
+
+To run:
+	tableTest
+	   ~or~
+	tableTest RemainingFilePath
+	
