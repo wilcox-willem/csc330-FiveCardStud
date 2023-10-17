@@ -230,7 +230,7 @@ module HandAlyzerModule
     integer, dimension(6) :: score_keeper_winning_order
     integer, dimension(7) :: score_keeper_player 
     integer, dimension(7) :: score_keeper_player2
-    character(20), dimension(6) :: player_hand_ranks
+    character(30), dimension(6) :: player_hand_ranks
   end type HandAlyzer
 
   contains
@@ -305,7 +305,7 @@ module HandAlyzerModule
 
     subroutine get_final_score_print(this)
       type(HandAlyzer), intent(inout) :: this
-      character(43), dimension(6) :: hand_strings
+      character(30), dimension(6) :: hand_strings
       type(Card) :: temp_card
       integer :: player_rank_index_limit, player, criteria, current_hand_rank, i, j
       character(4) :: temp_card_str
@@ -321,12 +321,9 @@ module HandAlyzerModule
         
         do j = 1, 5
           temp_card = this%player_hands(i, j)
-          temp_card_str = card_to_string(temp_card)
-          if (temp_card%rank_int .eq. 9) then
-            hand_strings(i) = trim(hand_strings(i)) // temp_card_str
-          else
-            hand_strings(i) = trim(hand_strings(i)) // temp_card_str
-          end if
+          temp_card_str = card_to_string_opt(temp_card, 1)
+          hand_strings(i) = trim(hand_strings(i)) // " " // temp_card_str
+          ! write (hand_strings(i), '(A)', advance="no") card_to_string_opt(this%player_hands(i, j), 1)
         end do
 
       end do
@@ -357,9 +354,10 @@ module HandAlyzerModule
     function get_hand_rank_int(this_player_hand, this_score_keeper) result(handrank_int)
       type(Card), dimension(5), intent(in) :: this_player_hand
       integer, dimension(7), intent(inout) :: this_score_keeper
-      integer :: handrank_int
+      integer :: handrank_int, temp_NOP
 
       handrank_int = 0
+      temp_NOP = num_of_pairs(this_player_hand, this_score_keeper)
 
       if (is_straight_royal_flush(this_player_hand, this_score_keeper)) then 
         handrank_int = 7
@@ -371,9 +369,9 @@ module HandAlyzerModule
         handrank_int = 6
       else if (is_three_of_a_kind(this_player_hand, this_score_keeper)) then 
         handrank_int = 3
-      else if (num_of_pairs(this_player_hand, this_score_keeper) .eq. 2) then 
+      else if (temp_NOP == 2) then 
         handrank_int = 2
-      else if (num_of_pairs(this_player_hand, this_score_keeper) .eq. 2) then 
+      else if (temp_NOP == 1) then 
         handrank_int = 1
       else  
         call get_high_card(this_player_hand, this_score_keeper)
@@ -384,10 +382,10 @@ module HandAlyzerModule
     subroutine swap_hands(this_handalyzer, player1, player2, hand_strings)
       type(HandAlyzer), intent(inout) :: this_handalyzer
       integer, intent(in) :: player1, player2
-      character(20), dimension(6), intent(inout) :: hand_strings
+      character(30), dimension(6), intent(inout) :: hand_strings
       integer, dimension(7) :: temp_score_keeper
-      character(43) :: temp_rank
-      character(20) :: temp_hand
+      character(20) :: temp_rank
+      character(30) :: temp_hand
     
       ! Swap score_keeper_all arrays for player1 and player2
       temp_score_keeper = this_handalyzer%score_keeper_all(player1, :)
@@ -521,11 +519,13 @@ module HandAlyzerModule
     function is_full_house(this_player_hand, this_score_keeper) result(bool)
       type(Card), dimension(5) :: this_player_hand
       integer, dimension(7) :: this_score_keeper
-      logical :: bool
+      logical :: bool, temp_IS, temp_IF
 
       bool = .false.
+      temp_IS = is_straight(this_player_hand, this_score_keeper)
+      temp_IF = is_flush(this_player_hand, this_score_keeper)
 
-      if (is_straight(this_player_hand, this_score_keeper) .and. is_flush(this_player_hand, this_score_keeper)) then 
+      if (temp_IS .and. temp_IF) then 
       call get_high_card(this_player_hand, this_score_keeper)
         bool = .true.
       end if
@@ -533,6 +533,7 @@ module HandAlyzerModule
 
     function num_of_pairs(this_player_hand, this_score_keeper) result(pairs_found)
       type(Card), dimension(5) :: this_player_hand
+      type(Card) :: temp_card
       integer, dimension(7) :: this_score_keeper
       integer, dimension(13) :: cards_in_hand
       integer, dimension(2) :: pair_ranks
@@ -547,12 +548,14 @@ module HandAlyzerModule
       j = 3
 
       do i = 1, 5 
-        card_value = this_player_hand(i)%rank_int
+        temp_card = this_player_hand(i)
+        card_value = temp_card%rank_int
         cards_in_hand(card_value) = cards_in_hand(card_value) + 1
       end do 
 
       do i = 1, 13
-        if (cards_in_hand(i) .eq. 2) then 
+        card_value = cards_in_hand(i)
+        if (card_value == 2) then 
           pairs_found = pairs_found + 1 
           pair_ranks(pairs_found) = 14 ! hard coded for aces tie breaking
         else if (cards_in_hand(i) .eq. 1) then 
@@ -560,10 +563,8 @@ module HandAlyzerModule
         end if 
       end do 
 
-      if (pairs_found .eq. 1) then 
+      if (pairs_found == 1) then 
         cards_in_hand = sort_array_high(cards_in_hand)
-        this_score_keeper(2) = pair_ranks(1) 
-        this_score_keeper(7) = kicker_rank
         do i = 1, 5 
           temp_CHR = cards_in_hand(i)
           temp_PR = pair_ranks(1) 
@@ -572,6 +573,8 @@ module HandAlyzerModule
             j = j + 1
           end if
         end do
+        this_score_keeper(2) = pair_ranks(1) 
+        this_score_keeper(7) = kicker_rank
       else if (pairs_found .eq. 2) then 
         this_score_keeper(2) = pair_ranks(1)
         this_score_keeper(3) = pair_ranks(2)

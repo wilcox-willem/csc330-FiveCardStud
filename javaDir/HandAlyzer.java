@@ -223,10 +223,6 @@ public class HandAlyzer {
 				highCard = card;
 			}
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 0449f2369367c623e90b0a24aebb28eed3801559
 		}	
 
 		//Keeps Aces High for high card
@@ -245,23 +241,14 @@ public class HandAlyzer {
 			ranks[i] = hand[i].rank.ordinal();
 			//For ties, ranks ace as highest value
 			if (ranks[i] == 0){
-<<<<<<< HEAD
-				ranks[i] = 13;
-=======
 				ranks[i] = 14;
->>>>>>> 0449f2369367c623e90b0a24aebb28eed3801559
 			}
 		}
 		Arrays.sort(ranks); //sorted [low to high]
 		int sKIndex = 2;
 
-<<<<<<< HEAD
-		//Reverses the array from [low to high], to, [high to low]
-		for (int i = 4; i > 0; i--) {
-=======
 		//Reverses the array from [low to high], to, [high to low] when assigning values to scoreKeeper[]
 		for (int i = 3; i >= 0; i--) {
->>>>>>> 0449f2369367c623e90b0a24aebb28eed3801559
 			scoreKeeper[sKIndex] = ranks[i];
 			sKIndex++;
 		}

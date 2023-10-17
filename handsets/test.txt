@@ -1,6 +1,0 @@
-10H, JC, JH, 4C, 4S
- 9S, AS, 2C, 4D, 7C
- 5C, JS, 6C,10S,10C
- AH, 2H, 3H, 4H, 5H
- AC, KD, QH, JD,10D
- 8H, 8C, 8D, 3D, 3S
