@@ -1,0 +1,7 @@
+To run the program, use the following command
+
+julia freshTable.jl
+
+to run with a test file, add the file path as a second argument
+
+julia freshTable.jl /filePath/fileName/

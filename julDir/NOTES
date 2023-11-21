@@ -1,0 +1,44 @@
+To compile, use 'julia name_of_file.jl'
+
+To include one file into another, use 'include("name_of_file.jl")' at the top,
+then below that use 'using ..ModuleName'
+as well as, use 'ModuleName.moduleFunction()' to use the functions of said file
+
+
+
+"/home/wilcox_we/csc330/FCWW/handsets/tester_rsf" is a known good file location!
+use this with import_deck to return a 2d array of cards
+
+
+c to make hands
+
+newCard = create_card_str(string(cardStrings[currentCard]))
+                hands[i, j] = newCard
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+To run the program
+
+without a file
+
+julia freshTable.jl
+
+
+
+
+with a file
+
+julia freshTable.jl /home/wilcox_we/csc330/FCWW/handsets/test
+
+julia freshTable.jl filePath
