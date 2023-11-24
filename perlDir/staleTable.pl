@@ -20,7 +20,7 @@ use List::Util qw(shuffle);
 # the rank and suit values to find strings
 # in predefined string arrays
 
-our @rankStrings = (" A", " 2", " 3", " 4", " 5", " 6", " 7", " 8", " 9", "10", " J", " Q", " K", " A");
+our @rankStrings = (" A", " 2", " 3", " 4", " 5", " 6", " 7", " 8", " 9", "10", " J", " Q", " K");
 our @suitStrings = ("D", "C", "H", "S");
 
 # Create dictionaries
@@ -55,7 +55,7 @@ sub print_card_string {
     # in: $card
     # out: prints to current line " RRS" or " RS" 
     my $currentcard = shift;
-    if (($currentcard % 100) == 9){
+    if (get_rank_int($currentcard) == 9){
         print " ".get_card_string($currentcard);
     } else {
         print get_card_string($currentcard);
@@ -199,222 +199,16 @@ sub deal_cards {
 ###################################################################################
 ###################################################################################
 
+=pod # commentted out handanalyzer, still under developement!
+
 ##### HandAlyzer function is the master analysis function, 
 ##### it takes the hands then prints the results.
 sub HandAlyzer {
-    # in: @hands[6][5], (pass by val or ref, doesn't matter)
+    # in: @hands[6][5]
     # out: prints scores to console
     my @hands = @_;
 
 
-    our @scoreKeeperAll;
-    for my $i (0..5) {
-        for my $j (0..6) {
-            $scoreKeeperAll[$i][$j] = 0;
-        }
-    }
-
-    for my $i (0..5) {
-        getHandRank($hands[$i], $scoreKeeperAll[$i]);
-    }
-
-    ## Sort out winners and implement tie breaking via bubblesorting
-    for my $playerRankIndexLimit (0..5) {
-        for my $currentPlayer (0..4) {
-            if ($scoreKeeperAll[$currentPlayer][0] < $scoreKeeperAll[$currentPlayer + 1][0]) {
-                swapHands($currentPlayer, $currentPlayer + 1,\@scoreKeeperAll);
-            } elsif ($scoreKeeperAll[$currentPlayer][0] == $scoreKeeperAll[$currentPlayer + 1][0]) {
-                for my $criteriaIndex (1..6) {
-                    if ($scoreKeeperAll[$currentPlayer][$criteriaIndex] < $scoreKeeperAll[$currentPlayer + 1][$criteriaIndex]) {
-                        swapHands($currentPlayer, $currentPlayer + 1, \@scoreKeeperAll);
-                        last;
-                    } elsif ($scoreKeeperAll[$currentPlayer][$criteriaIndex] > $scoreKeeperAll[$currentPlayer + 1][$criteriaIndex]) {
-                        last;
-                    }
-                }
-            }
-        }
-    }
-
-    printResults(\@hands, \@scoreKeeperAll);
-
-}
-
-# helper function to clean up swapping hands
-sub swapHands {
-    # in: $p1, $p2, \@scoreKeeperMaster
-    # out: in sKM, swaps $p1 with $p2
-    my ($currentPlayer, $nextPlayer, $scoreKeeperAll) = @_;
-    
-    # Swap score keepers
-    my @tempSK = @$scoreKeeperAll[$currentPlayer];
-    @$scoreKeeperAll[$currentPlayer] = @$scoreKeeperAll[$nextPlayer];
-    @$scoreKeeperAll[$nextPlayer] = @tempSK;
-
-}
-
-# helper function to get final print string
-sub printResults { 
-    # in: \@playerHands[6][5] && \@scoreKeeper[6][7]
-    # out: prints final results from analysis
-    my ($playerHandsAll, $scoreKeeperAll) = @_;
-
-    my @rankStrings = ("High Card", "Pair", "Two Pair",
-                    "Three of a Kind", "Straight", "Flush",
-                    "Full House", "Four of a Kind",
-                    "Straight Flush", "Royal Straight Flush");
-
-    for my $i (0..5) {
-        for my $j (0..4) {
-            my $card = $playerHandsAll->[$i][$j];
-            print_card_string($card);
-        }
-        my $score = $scoreKeeperAll->[$i][0];
-        my $string = $rankStrings[$score];
-
-
-        print " - $string\n";
-    }
-
-    print "\n";
-}
-
-### this function is the master ranker
-sub getHandRank {
-    # in: \@playerHand[5] && \@playerScore[7]
-    # out: updates scoreKeeper
-    my ($hand, $scoreKeeper) = @_;
-
-    if (isStraightRoyalFlush($hand, $scoreKeeper)) {
-        $scoreKeeper->[0] = 9;
-    } elsif (isStraightFlush($hand, $scoreKeeper)) {
-        $scoreKeeper->[0] = 8;
-    } elsif (isFourOfAKind($hand, $scoreKeeper)) {
-        $scoreKeeper->[0] = 7;
-    } elsif (isFullHouse($hand, $scoreKeeper)) {
-        $scoreKeeper->[0] = 6;
-    } elsif (isFlush($hand, $scoreKeeper)) {
-        $scoreKeeper->[0] = 5;
-    } elsif (isStraight($hand, $scoreKeeper)) {
-        $scoreKeeper->[0] = 4;
-    } elsif (isThreeOfAKind($hand, $scoreKeeper)) {
-        $scoreKeeper->[0] = 3;
-    } elsif (numOfPairs($hand, $scoreKeeper) == 2) {
-        $scoreKeeper->[0] = 2;
-    } elsif (numOfPairs($hand, $scoreKeeper) == 1) {
-        $scoreKeeper->[0] = 1;
-    } elsif ($scoreKeeper->[0] == 0) {
-        getHighCard($hand, $scoreKeeper);
-        getHighCardTieBreakers($hand, $scoreKeeper);
-    }
-}
-
-### START analysis functions
-
-sub isFlush {
-    # in: \@playerHand[5] && \@playerScore[7]
-    # out: returns bool if matches rank,
-    #      also updates scoreKeeper
-    my ($hand, $scoreKeeper) = @_;
-
-    my @suitPerCard;
-
-    foreach my $card (@$hand) {
-        push @suitPerCard, int($card / 100);
-    }
-
-    for my $i (0..3) {
-        if ($suitPerCard[$i] != $suitPerCard[$i + 1]) {
-            return 0;  # false
-        }
-    }
-
-    getHighCard($hand, $scoreKeeper);
-    getHighCardTieBreakers($hand, $scoreKeeper);
-    return 1;  # true
-}
-
-sub isStraight {
-    # in: \@playerHand[5] && \@playerScore[7]
-    # out: returns bool if matches rank,
-    #      also updates scoreKeeper
-    my ($hand, $scoreKeeper) = @_;
-
-    my @handCopy = sort @$hand;
-
-    # Array with hard coded rank values of A, 10, J, Q, K
-    my @cardsToCheck = (0, 9, 10, 11, 12);
-    my @isRoyalStraight = 1;
-
-    foreach my $i (0..4) {
-        if (($handCopy[$i] % 100) != $cardsToCheck[$i]) {
-            @isRoyalStraight = 0;
-        }
-    }
-
-    # if hand happens to be royal straight
-    if (@isRoyalStraight) {
-        $scoreKeeper->[6] = int($handCopy[0] / 100);
-        return 0;
-    }
-
-    for my $i (0..3) {
-        if (($handCopy[$i] % 100) != ($handCopy[$i + 1] % 100) + 1) {
-            return 0;  # false
-        }
-    }
-
-    $scoreKeeper->[1] =     ($handCopy[4] % 100); # set highest card rank 
-    $scoreKeeper->[6] =  int($handCopy[4] / 100); # set tie breaking suit
-    return 1;  # true
-}
-
-sub isStraightFlush {
-    # in: \@playerHand[5] && \@playerScore[7]
-    # out: returns bool if matches rank,
-    #      also updates scoreKeeper
-    my ($hand, $scoreKeeper) = @_;
-
-    if (isStraight($hand, $scoreKeeper) && isFlush($hand, $scoreKeeper)) {
-        return 1;
-    } else {
-        return 0;
-    }
-}
-
-
-sub isStraightRoyalFlush {
-    # in: \@playerHand[5] && \@playerScore[7]
-    # out: returns bool if matches rank,
-    #      also updates scoreKeeper
-    my ($hand, $scoreKeeper) = @_;
-
-    my @countsPerRank = (0) x 13;
-    my @suitPerCard;
-
-    # Array with hard coded rank values of A, 10, J, Q, K
-    my @cardsToCheck = (0, 9, 10, 11, 12);
-
-    foreach my $card (@$hand) {
-        $countsPerRank[$card % 100] += 1;
-        push @suitPerCard, int($card / 100);
-    }
-
-    foreach my $i (@cardsToCheck) {
-        if ($countsPerRank[$i] != 1) {
-            return 0;  # false
-        }
-    }
-
-    for my $i (0..3) {
-        if ($suitPerCard[$i] != $suitPerCard[$i + 1]) {
-            return 0;  # false
-        }
-    }
-
-    $scoreKeeper->[6] = $suitPerCard[0];
-
-    return 1;  # true
 }
 
 sub numOfPairs {
@@ -423,64 +217,31 @@ sub numOfPairs {
     #      also updates scoreKeeper
     my ($hand, $scoreKeeper) = @_;
 
-    my $numberOfPairs = 0;
-    my $kickerCard;
+    my $numberOfPairs;
     my @pairRanks;
-    my $iterator = 0;
-   
+
+    my $kickerRank;
+    my $iterator;
+
     my @countsPerRank = (0) x 14;  # Initialize array with zeros
-    foreach my $card (@$hand) {
+
+    for my $card (@$hand) {
         if (($card % 100) == 0) {
             # adjust aces high val
             $card += 13;
         }
+
         $countsPerRank[$card % 100] += 1;
     }
 
-    for my $i (0..13) {
-        if ($countsPerRank[$i] == 2) {
-            $numberOfPairs+= 1;
-            $pairRanks[$iterator] = $i;
-            $iterator += 1;
+    for my $i (0..12) {
+        if ($countsPerRank[$i] == 4) {
+            $scoreKeeper->[1] = $i;  # Update the relevant value in scoreKeeper
+            getHighCardTieBreakers($hand, $scoreKeeper);
+            return 1;  # true
         }
     }
 
-    # if no pairs, exit
-    if ($numberOfPairs == 0) {
-        return 0;
-    }
-
-    # update scoreKeeper / playerScore
-    if ($numberOfPairs == 1) {
-        my $sKIndex = 2;
-
-        # Assign the sorted values to the appropriate positions in $scoreKeeper
-        foreach my $rank (@$hand) {
-            $rank = $rank % 100;
-            if ($rank != ($pairRanks[0])) {
-            $scoreKeeper->[$sKIndex++] = $rank;
-            }
-        }
-        $scoreKeeper->[1] = $pairRanks[0];
-        return 0;
-    } elsif ($numberOfPairs == 2) {
-        @pairRanks = sort @pairRanks;
-        $scoreKeeper->[1] = $pairRanks[1];
-        $scoreKeeper->[2] = $pairRanks[0];
-    }
-
-    # update kicker value
-    my @handClone = sort @$hand;
-    foreach my $card (@handClone) {
-        foreach my $pairRank (@pairRanks) {
-            if (($card % 100) != $pairRank) {
-                $kickerCard = $card;  
-            }
-        }
-    }
-    $scoreKeeper->[6] = $kickerCard;
-
-    return $numberOfPairs;
 }
 
 sub isThreeOfAKind {
@@ -491,7 +252,7 @@ sub isThreeOfAKind {
 
     my @countsPerRank = (0) x 13;  # Initialize array with zeros
 
-    foreach my $card (@$hand) {
+    for my $card (@$hand) {
         $countsPerRank[$card % 100] += 1;
     }
 
@@ -520,7 +281,7 @@ sub isFullHouse {
     return 0;  # false
 }
 
-sub isFourOfAKind {
+sub isFourOfaKind {
     # in: \@playerHand[5] && \@playerScore[7]
     # out: returns boolean if hand type matches,
     #      also updates scoreKeeper
@@ -528,7 +289,7 @@ sub isFourOfAKind {
 
     my @countsPerRank = (0) x 13;  # Initialize array with zeros
 
-    foreach my $card (@$hand) {
+    for my $card (@$hand) {
         $countsPerRank[$card % 100] += 1;
     }
 
@@ -567,6 +328,7 @@ sub getHighCard {
     # set scoreKeeper high card and high card suit
     $scoreKeeper->[1] = ($highCard % 100);
     $scoreKeeper->[6] = int($highCard / 100);
+
 }
 
 sub getHighCardTieBreakers {
@@ -576,7 +338,7 @@ sub getHighCardTieBreakers {
     my @cardRanks;
 
     foreach my $currentcard (@$hand) {
-        my $currentRank = ($currentcard % 100);
+        $currentRank = ($currentcard % 100);
         if ($currentRank == 0) {
             # adjust for aces high val
             $currentRank += 13;
@@ -598,7 +360,11 @@ sub getHighCardTieBreakers {
     }
 }
 
-#### End Hand Analysis Functions
+
+
+
+=cut
+
 
 ###################################################################################
 ###################################################################################
@@ -619,7 +385,7 @@ sub mainTable {
     }
 
     @gameHands = deal_cards(@gameDeck);
-    HandAlyzer(@gameHands);
+
 }
 
 # Call the main subroutine

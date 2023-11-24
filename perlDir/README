@@ -1,0 +1,73 @@
+EADME 
+perl
+WW
+MU CSC330 Dr. Pounds
+
+To run the program, use the command
+
+perl freshTable.pl
+
+~ or ~
+
+perl freshTable.pl /filepath/filename
+
+
+----------------------------------------------------------------------
+
+My impressions/notes of perl:
+
+	- Honestly, I thought it was going to take a while to get comfy
+	  but Perl has a lot of really fun and refreshing features and tools.
+	  Furthermore, I enjoy the use of $ and @ (helps me make read/remember), 
+	  as well as learning more about how Perl works behind the scenes 
+	  to pull it all off. I think its really cool and it's been the
+	  easiest for me to pick up. Julia is also really nice, but man,
+	  Perl just scratches an itch I didn't know I had haha
+
+	- I found a book on learning/using Perl, it's called 
+			"Perl Cookbook" by Tom Christiansen & Nathan Torkington
+	  Here is a link I found for it as well, it was really helpful for me
+	  		https://www.geos.ed.ac.uk/~bmg/software/Perl%20Books/OReilly.Perl.Cookbook.pdf
+	  Furthermore, I would reccomend others to give it a read!
+
+	  One of the things I really enjoy about it, is that it introduces
+	  concepts via this formula:
+	  		1. Problem : real example to bring context
+	  		2. Solution : need I say more?
+	  		3. Discussion : ^ look above ^
+	  		4. See Also : more context and resources
+	  Now, it is a little dated (1998, but thats up to V. 5.05)
+
+	  Overall, it helped me wrap my head around things and I like
+	  the way they structured the book!
+
+	- This version of the project was also the easiest to debug!
+	  The hardest thing for me was understanding how to pass values
+	  to subroutines via @_ but after messing around with it, I'm
+	  suprisingly happy with how it works. It's kinda cool
+
+	  There were a lot of moments where I wish I could have spent longer
+	  to explore more cool features and uses. I'm going to comeback to
+	  Perl for a homebrew project of somesorts though
+
+	- Below are two WONDERFUL youtube videos, the creators
+	  are fantastic as well. Fireship has a lot of "_ in 100 seconds"
+	  videos, that have been great for getting a quick overview of
+	  just about any language you could think of. Furthermore,
+	  you dive int to Derek Banas' "Learn _ in one video" for an
+	  hour long dive into a multitude of useful features for starting
+	  out in a new language. Together, you can get a massive head
+	  start! They make these videos for all sorts of languages and
+	  adjacent topics as well. They have been monumental for me in
+	  this class
+
+	  Fireship: Perl in 100 Seconds
+	  	https://www.youtube.com/watch?v=74_7LrRe5DI&t=80s&pp=ygULcGVybCBpbiBvbmU%3D
+	  	
+	  	(Fun fact: he uses a "hi mom" instead of a "hello world" in every
+	  	 videos he makes. He does it for his mom, because she watches all 
+	  	 of his videos)
+
+	  Derek Banas: Perl Tutorial
+	  	https://www.youtube.com/watch?v=WEghIXs8F6c&pp=ygULcGVybCBpbiBvbmU%3D
+
