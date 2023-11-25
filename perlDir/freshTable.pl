@@ -47,7 +47,7 @@ sub get_card_string {
     # in: $card
     # out: $string, form "RRS"
     my $card = shift;
-    my $cardTitle = $rankStrings[($card % 100)].$suitStrings[(int($card / 100))];
+    my $cardTitle = $rankStrings[($card % 100)].$suitStrings[int($card / 100)];
     return $cardTitle;
 }
 
@@ -139,6 +139,9 @@ sub import_deck {
 
         foreach my $token (@tokens) {
             my $currentcard = create_card_from_string($token);
+            
+            # debug to see how create_card performs
+            print "$token \\ $currentcard \n";
 
             # check for duplicates in the deck
             if ($cardsInDeck{$currentcard}) {
@@ -188,6 +191,7 @@ sub deal_cards {
             my $currentcard = shift @deck;
             print_card_string($currentcard);
         }
+        print "\n";
     }
     print "\n";
 
@@ -206,10 +210,13 @@ sub HandAlyzer {
     # out: prints scores to console
     my @hands = @_;
 
+    # presort clone
+    my @handsClone = @hands; 
+
 
     our @scoreKeeperAll;
-    for my $i (0..5) {
-        for my $j (0..6) {
+    for my $i (0..5) { # 6 players
+        for my $j (0..6) { # 7 criteria
             $scoreKeeperAll[$i][$j] = 0;
         }
     }
@@ -222,11 +229,11 @@ sub HandAlyzer {
     for my $playerRankIndexLimit (0..5) {
         for my $currentPlayer (0..4) {
             if ($scoreKeeperAll[$currentPlayer][0] < $scoreKeeperAll[$currentPlayer + 1][0]) {
-                swapHands($currentPlayer, $currentPlayer + 1,\@scoreKeeperAll);
+                swapHands($currentPlayer, ($currentPlayer + 1),\@scoreKeeperAll, \@handsClone);
             } elsif ($scoreKeeperAll[$currentPlayer][0] == $scoreKeeperAll[$currentPlayer + 1][0]) {
                 for my $criteriaIndex (1..6) {
                     if ($scoreKeeperAll[$currentPlayer][$criteriaIndex] < $scoreKeeperAll[$currentPlayer + 1][$criteriaIndex]) {
-                        swapHands($currentPlayer, $currentPlayer + 1, \@scoreKeeperAll);
+                        swapHands($currentPlayer, ($currentPlayer + 1), \@scoreKeeperAll, \@handsClone);
                         last;
                     } elsif ($scoreKeeperAll[$currentPlayer][$criteriaIndex] > $scoreKeeperAll[$currentPlayer + 1][$criteriaIndex]) {
                         last;
@@ -236,20 +243,39 @@ sub HandAlyzer {
         }
     }
 
-    printResults(\@hands, \@scoreKeeperAll);
+    printResults(\@handsClone, \@scoreKeeperAll);
 
 }
 
 # helper function to clean up swapping hands
 sub swapHands {
-    # in: $p1, $p2, \@scoreKeeperMaster
-    # out: in sKM, swaps $p1 with $p2
-    my ($currentPlayer, $nextPlayer, $scoreKeeperAll) = @_;
+    # in: $p1, $p2, \@scoreKeeperMaster, \@playerHandsMaster
+    # out: within @sKM @pHM, swaps $p1 with $p2
+    my ($currentPlayer, $nextPlayer, $scoreKeeperAll, $handsAll) = @_;
     
-    # Swap score keepers
-    my @tempSK = @$scoreKeeperAll[$currentPlayer];
-    @$scoreKeeperAll[$currentPlayer] = @$scoreKeeperAll[$nextPlayer];
-    @$scoreKeeperAll[$nextPlayer] = @tempSK;
+    # # Swap hands
+    # my @tempH = @$handsAll[$currentPlayer];
+    # @$handsAll[$currentPlayer] = @$handsAll[$nextPlayer];
+    # @$handsAll[$nextPlayer] = @tempH;
+
+    for my $i (0..4){
+        my $tempH = $handsAll->[$currentPlayer][$i];
+        $handsAll->[$currentPlayer][$i] = $handsAll->[$nextPlayer][$i];
+        $handsAll->[$nextPlayer][$i] = $tempH;
+
+    }
+
+    # # Swap score keepers
+    # my @tempSK = @$scoreKeeperAll[$currentPlayer];
+    # @$scoreKeeperAll[$currentPlayer] = @$scoreKeeperAll[$nextPlayer];
+    # @$scoreKeeperAll[$nextPlayer] = @tempSK;
+
+    for my $i (0..6){
+        my $tempSK = $scoreKeeperAll->[$currentPlayer][$i];
+        $scoreKeeperAll->[$currentPlayer][$i] = $scoreKeeperAll->[$nextPlayer][$i];
+        $scoreKeeperAll->[$nextPlayer][$i] = $tempSK;
+
+    }
 
 }
 
@@ -264,16 +290,21 @@ sub printResults {
                     "Full House", "Four of a Kind",
                     "Straight Flush", "Royal Straight Flush");
 
+    print "--- WINNING HAND ORDER ---\n";
+
     for my $i (0..5) {
         for my $j (0..4) {
             my $card = $playerHandsAll->[$i][$j];
-            print_card_string($card);
+            print get_card_string($card)." ";
         }
         my $score = $scoreKeeperAll->[$i][0];
         my $string = $rankStrings[$score];
 
+        # print "- $string\n";
+        
+        # debug print statement
+        print " // [", join(", ", @{$scoreKeeperAll->[$i]}), "] "."- $string\n";
 
-        print " - $string\n";
     }
 
     print "\n";
@@ -319,13 +350,11 @@ sub isFlush {
 
     my @suitPerCard;
 
-    foreach my $card (@$hand) {
-        push @suitPerCard, int($card / 100);
-    }
-
     for my $i (0..3) {
-        if ($suitPerCard[$i] != $suitPerCard[$i + 1]) {
-            return 0;  # false
+        my $suit1 = get_suit_int($hand->[$i]);
+        my $suit2 = get_suit_int($hand->[$i+1]);
+        if ($suit1 != $suit2) {
+            return 0;
         }
     }
 
@@ -359,7 +388,7 @@ sub isStraight {
     }
 
     for my $i (0..3) {
-        if (($handCopy[$i] % 100) != ($handCopy[$i + 1] % 100) + 1) {
+        if (($handCopy[$i] % 100) != (($handCopy[$i + 1] % 100) + 1)) {
             return 0;  # false
         }
     }
@@ -478,7 +507,7 @@ sub numOfPairs {
             }
         }
     }
-    $scoreKeeper->[6] = $kickerCard;
+    $scoreKeeper->[6] = int($kickerCard / 100);
 
     return $numberOfPairs;
 }
@@ -492,7 +521,7 @@ sub isThreeOfAKind {
     my @countsPerRank = (0) x 13;  # Initialize array with zeros
 
     foreach my $card (@$hand) {
-        $countsPerRank[$card % 100] += 1;
+        $countsPerRank[($card % 100)] += 1;
     }
 
     for my $i (0..12) {
@@ -512,7 +541,7 @@ sub isFullHouse {
     #      also updates scoreKeeper
     my ($hand, $scoreKeeper) = @_;
 
-    if (isThreeOfAKind($hand, $scoreKeeper) && numOfPairs($hand, $scoreKeeper) == 1) {
+    if (isThreeOfAKind($hand, $scoreKeeper) && numOfPairs($hand, $scoreKeeper) == 2) {
         getHighCard($hand, $scoreKeeper);
         return 1;  # true
     }

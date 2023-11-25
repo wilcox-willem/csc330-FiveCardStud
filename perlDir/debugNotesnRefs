@@ -1,0 +1,561 @@
+testing with debug
+
+
+////////////////////////////////////////////////////////////////////////////
+test
+
+[wilcox_we@cobra perlDir]$ perl freshTable.pl /home/wilcox_we/csc330/FCWW/handsets/test
+*** P O K E R  H A N D  A N A L Y Z E R ***
+
+
+*** USING TEST DECK ***
+
+*** File: /home/wilcox_we/csc330/FCWW/handsets/test
+10H, JC, JH, 4C, 4S
+ 9S, AS, 2C, 4D, 7C
+ 5C, JS, 6C,10S,10C
+ AH, 2H, 3H, 4H, 5H
+ AC, KD, QH, JD,10D
+ 8H, 8C, 8D, 3D, 3S
+10H \ 209
+ JC \ 110
+ JH \ 210
+ 4C \ 103
+ \ 303
+ 9S \ 308
+ AS \ 313
+ 2C \ 101
+ 4D \ 3
+ \ 106
+ 5C \ 104
+ JS \ 310
+ 6C \ 105
+10S \ 309
+ \ 109
+ AH \ 213
+ 2H \ 201
+ 3H \ 202
+ 4H \ 203
+ \ 204
+ AC \ 113
+ KD \ 12
+ QH \ 211
+ JD \ 10
+ \ 9
+ 8H \ 207
+ 8C \ 107
+ 8D \ 7
+ 3D \ 2
+ 3S \ 302
+
+*** Here are the six hands...
+ 10H JC JH 4C 4S
+ 9S AS 2C 4D 7C
+ 5C JS 6C 10S 10C
+ AH 2H 3H 4H 5H
+ AC KD QH JD 10D
+ 8H 8C 8D 3D 3S
+
+
+--- WINNING HAND ORDER ---
+ AH  2H  3H  4H  5H  // [5, 13, 3, 2, 13, 1, 2] - Flush
+ 8D  8D  8D  3D  3D  // [5, 7, 7, 7, 2, 2, 0] - Flush
+10H  JC  JH  4C  4S  // [2, 3, 10, 0, 0, 0, 3] - Two Pair
+ AC  KD  QH  JD 10D  // [0, 13, 13, 12, 11, 10, 1] - High Card
+ 9S  AS  2C  4D  7C  // [0, 13, 6, 3, 13, 1, 3] - High Card
+ 5D  JD  6D 10D 10D  // [0, 10, 9, 5, 4, 10, 0] - High Card
+
+[wilcox_we@cobra perlDir]$
+
+
+////////////////////////////////////////////////////////////////////////////
+tester_2
+
+[wilcox_we@cobra perlDir]$ perl freshTable.pl /home/wilcox_we/csc330/FCWW/handsets/tester_2
+*** P O K E R  H A N D  A N A L Y Z E R ***
+
+
+*** USING TEST DECK ***
+
+*** File: /home/wilcox_we/csc330/FCWW/handsets/tester_2
+ JC, QC, KC, AC, 2C
+10D, JS, QD, KD, AD
+10H, JH, QH, KH, AH
+ JD, QS, KS, AS,10S
+ 3H, 3D, 3C, 8C, 8S
+10C, 7H, 2H, 2D, 7S
+ JC \ 110
+ QC \ 111
+ KC \ 112
+ AC \ 113
+ \ 101
+10D \ 9
+ JS \ 310
+ QD \ 11
+ KD \ 12
+ \ 13
+10H \ 209
+ JH \ 210
+ QH \ 211
+ KH \ 212
+ \ 213
+ JD \ 10
+ QS \ 311
+ KS \ 312
+ AS \ 313
+ \ 309
+ 3H \ 202
+ 3D \ 2
+ 3C \ 102
+ 8C \ 107
+ \ 307
+10C \ 109
+ 7H \ 206
+ 2H \ 201
+ 2D \ 1
+ 7S \ 306
+
+*** Here are the six hands...
+ JC QC KC AC 2C
+ 10D JS QD KD AD
+ 10H JH QH KH AH
+ JD QS KS AS 10S
+ 3H 3D 3C 8C 8S
+ 10C 7H 2H 2D 7S
+
+
+--- WINNING HAND ORDER ---
+10H  JH  QH  KH  AH  // [5, 13, 13, 12, 11, 10, 2] - Flush
+ JC  QC  KC  AC  2C  // [5, 13, 12, 11, 10, 1, 1] - Flush
+ 3D  3D  3D  8D  8D  // [5, 7, 7, 2, 2, 2, 0] - Flush
+10C  7H  2H  2D  7S  // [2, 6, 1, 0, 0, 0, 3] - Two Pair
+ JD  QS  KS  AS 10S  // [0, 13, 13, 12, 11, 10, 3] - High Card
+10D  JS  QD  KD  AD  // [0, 13, 13, 12, 11, 10, 0] - High Card
+
+[wilcox_we@cobra perlDir]$
+
+
+////////////////////////////////////////////////////////////////////////////
+fullhouse
+
+[wilcox_we@cobra perlDir]$ perl freshTable.pl /home/wilcox_we/csc330/FCWW/handsets/tester_fullhouse
+*** P O K E R  H A N D  A N A L Y Z E R ***
+
+
+*** USING TEST DECK ***
+
+*** File: /home/wilcox_we/csc330/FCWW/handsets/tester_fullhouse
+ AD, AH, AC, 2H, 2C
+ JD, JH, JC, QS, QC
+ 4D, 4H, 4C, 5S, 5C
+ 7D, 7H, 7C, 2D, 2S
+ 6D, 6H, 6C, 5H, 5D
+ KD, KH, KC, QH, QD
+ AD \ 13
+ AH \ 213
+ AC \ 113
+ 2H \ 201
+ \ 101
+ JD \ 10
+ JH \ 210
+ JC \ 110
+ QS \ 311
+ \ 111
+ 4D \ 3
+ 4H \ 203
+ 4C \ 103
+ 5S \ 304
+ \ 104
+ 7D \ 6
+ 7H \ 206
+ 7C \ 106
+ 2D \ 1
+ \ 301
+ 6D \ 5
+ 6H \ 205
+ 6C \ 105
+ 5H \ 204
+ \ 4
+ KD \ 12
+ KH \ 212
+ KC \ 112
+ QH \ 211
+ QD \ 11
+
+*** Here are the six hands...
+ AD AH AC 2H 2C
+ JD JH JC QS QC
+ 4D 4H 4C 5S 5C
+ 7D 7H 7C 2D 2S
+ 6D 6H 6C 5H 5D
+ KD KH KC QH QD
+
+
+--- WINNING HAND ORDER ---
+ KD  KD  KD  QD  QD  // [5, 12, 12, 12, 11, 11, 0] - Flush
+ JD  JD  JD  QD  QD  // [5, 11, 11, 10, 10, 10, 0] - Flush
+ 7D  7D  7D  2D  2D  // [5, 6, 6, 6, 1, 1, 0] - Flush
+ 6D  6D  6D  5D  5D  // [5, 5, 5, 5, 4, 4, 0] - Flush
+ 4D  4D  4D  5D  5D  // [5, 4, 4, 3, 3, 3, 0] - Flush
+ AD  AD  AD  2D  2D  // [0, 13, 13, 13, 1, 1, 0] - High Card
+
+
+
+////////////////////////////////////////////////////////////////////////////
+rsf
+
+[wilcox_we@cobra perlDir]$ perl freshTable.pl /home/wilcox_we/csc330/FCWW/handsets/tester_rsf
+*** P O K E R  H A N D  A N A L Y Z E R ***
+
+
+*** USING TEST DECK ***
+
+*** File: /home/wilcox_we/csc330/FCWW/handsets/tester_rsf
+ AH, KH, QH, JH,10H
+ AC, KC, QC, JC,10C
+ 2C, 3C, 4C, 5C, 6C
+ AS, KS, QS, JS,10S
+ 4S, 5S, 6S, 7S, 8S
+ AD, KD, QD, JD,10D
+ AH \ 213
+ KH \ 212
+ QH \ 211
+ JH \ 210
+ \ 209
+ AC \ 113
+ KC \ 112
+ QC \ 111
+ JC \ 110
+ \ 109
+ 2C \ 101
+ 3C \ 102
+ 4C \ 103
+ 5C \ 104
+ \ 105
+ AS \ 313
+ KS \ 312
+ QS \ 311
+ JS \ 310
+ \ 309
+ 4S \ 303
+ 5S \ 304
+ 6S \ 305
+ 7S \ 306
+ \ 307
+ AD \ 13
+ KD \ 12
+ QD \ 11
+ JD \ 10
+10D \ 9
+
+*** Here are the six hands...
+ AH KH QH JH 10H
+ AC KC QC JC 10C
+ 2C 3C 4C 5C 6C
+ AS KS QS JS 10S
+ 4S 5S 6S 7S 8S
+ AD KD QD JD 10D
+
+
+--- WINNING HAND ORDER ---
+ AS  KS  QS  JS 10S  // [5, 13, 13, 12, 11, 10, 3] - Flush
+ AH  KH  QH  JH 10H  // [5, 13, 13, 12, 11, 10, 2] - Flush
+ AC  KC  QC  JC 10C  // [5, 13, 13, 12, 11, 10, 1] - Flush
+ AD  KD  QD  JD 10D  // [5, 13, 13, 12, 11, 10, 0] - Flush
+ 4S  5S  6S  7S  8S  // [5, 7, 6, 5, 4, 3, 3] - Flush
+ 2C  3C  4C  5C  6C  // [5, 5, 4, 3, 2, 1, 1] - Flush
+
+[wilcox_we@cobra perlDir]$
+
+
+
+////////////////////////////////////////////////////////////////////////////
+rsfnfh
+
+[wilcox_we@cobra perlDir]$ perl freshTable.pl /home/wilcox_we/csc330/FCWW/handsets/tester_rsfnfh
+*** P O K E R  H A N D  A N A L Y Z E R ***
+
+
+*** USING TEST DECK ***
+
+*** File: /home/wilcox_we/csc330/FCWW/handsets/tester_rsfnfh
+10S, JS, QS, KS, AS
+10D, JD, QD, KD, AD
+10H, JH, QH, KH, AH
+10C, JC, QC, KC, AC
+ 3H, 3D, 3C, 8C, 8S
+ 2D, 2C, 2H, 7H, 7S
+10S \ 309
+ JS \ 310
+ QS \ 311
+ KS \ 312
+ \ 313
+10D \ 9
+ JD \ 10
+ QD \ 11
+ KD \ 12
+ \ 13
+10H \ 209
+ JH \ 210
+ QH \ 211
+ KH \ 212
+ \ 213
+10C \ 109
+ JC \ 110
+ QC \ 111
+ KC \ 112
+ \ 113
+ 3H \ 202
+ 3D \ 2
+ 3C \ 102
+ 8C \ 107
+ \ 307
+ 2D \ 1
+ 2C \ 101
+ 2H \ 201
+ 7H \ 206
+ 7S \ 306
+
+*** Here are the six hands...
+ 10S JS QS KS AS
+ 10D JD QD KD AD
+ 10H JH QH KH AH
+ 10C JC QC KC AC
+ 3H 3D 3C 8C 8S
+ 2D 2C 2H 7H 7S
+
+
+--- WINNING HAND ORDER ---
+10S  JS  QS  KS  AS  // [5, 13, 13, 12, 11, 10, 3] - Flush
+10H  JH  QH  KH  AH  // [5, 13, 13, 12, 11, 10, 2] - Flush
+10C  JC  QC  KC  AC  // [5, 13, 13, 12, 11, 10, 1] - Flush
+10D  JD  QD  KD  AD  // [5, 13, 13, 12, 11, 10, 0] - Flush
+ 3D  3D  3D  8D  8D  // [5, 7, 7, 2, 2, 2, 0] - Flush
+ 2D  2D  2D  7D  7D  // [5, 6, 6, 1, 1, 1, 0] - Flush
+
+[wilcox_we@cobra perlDir]$
+
+
+
+////////////////////////////////////////////////////////////////////////////
+threeofakind
+
+
+[wilcox_we@cobra perlDir]$ perl freshTable.pl /home/wilcox_we/csc330/FCWW/handsets/threeofakind
+*** P O K E R  H A N D  A N A L Y Z E R ***
+
+
+*** USING TEST DECK ***
+
+*** File: /home/wilcox_we/csc330/FCWW/handsets/threeofakind
+ AD, AH, AC, AS, 2C
+ JD, JH, JC, QS, 3C
+ 4D, 4H, 4C, 7S, 5C
+ 7D, 7H, 7C, 4S, 2S
+ 6D, 6H, 6C, 6S, KS
+ QD, QH, QC, 5S,10S
+ AD \ 13
+ AH \ 213
+ AC \ 113
+ AS \ 313
+ \ 101
+ JD \ 10
+ JH \ 210
+ JC \ 110
+ QS \ 311
+ \ 102
+ 4D \ 3
+ 4H \ 203
+ 4C \ 103
+ 7S \ 306
+ \ 104
+ 7D \ 6
+ 7H \ 206
+ 7C \ 106
+ 4S \ 303
+ \ 301
+ 6D \ 5
+ 6H \ 205
+ 6C \ 105
+ 6S \ 305
+ \ 312
+ QD \ 11
+ QH \ 211
+ QC \ 111
+ 5S \ 304
+10S \ 309
+
+*** Here are the six hands...
+ AD AH AC AS 2C
+ JD JH JC QS 3C
+ 4D 4H 4C 7S 5C
+ 7D 7H 7C 4S 2S
+ 6D 6H 6C 6S KS
+ QD QH QC 5S 10S
+
+
+--- WINNING HAND ORDER ---
+ 6D  6H  6C  6S  KS  // [7, 5, 5, 5, 5, 12, 1] - Four of a Kind
+ JD  JH  JC  QS  3C  // [3, 11, 11, 10, 10, 10, 3] - Three of a Kind
+ QD  QH  QC  5S 10S  // [3, 11, 4, 11, 11, 11, 0] - Three of a Kind
+ 7D  7H  7C  4S  2S  // [3, 6, 6, 6, 3, 1, 0] - Three of a Kind
+ 4D  4H  4C  7S  5C  // [3, 6, 4, 3, 3, 3, 3] - Three of a Kind
+ AD  AH  AC  AS  2C  // [0, 13, 13, 13, 13, 1, 0] - High Card
+
+[wilcox_we@cobra perlDir]$
+
+
+////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////
+
+Below are random samples
+
+////////////////////////////////////////////////////////////////////////////
+*** Here are the six hands...
+ 4S AC QS 7C 5C
+ 7D 4C JC 3C 10H
+ 6S 3D QH 2D 2C
+ 9S 6D 9H 7S KC
+ KD 2H KH JS 3S
+ 9C 3H QD 7H 8D
+
+*** Here is what remains in the deck...
+ KS AH 5S 8S 4D 5D 6C 10S 2S 8H AS 6H 9D 4H 8C QC JH JD 10C 10D AD 5H
+
+--- WINNING HAND ORDER ---
+ 4S  AC  QS  7C  5C  // [0, 13, 4, 3, 13, 11, 1] - High Card
+ KD  2D  KD  JD  3D  // [0, 12, 12, 12, 10, 1, 0] - High Card
+ 9D  6D  9D  7D  KD  // [0, 12, 8, 6, 5, 12, 0] - High Card
+ 9C  3H  QD  7H  8D  // [0, 11, 7, 6, 2, 11, 0] - High Card
+ 6D  3D  QD  2D  2D  // [0, 11, 2, 11, 1, 1, 0] - High Card
+ 7D  4C  JC  3C 10H  // [0, 10, 6, 3, 2, 10, 1] - High Card
+ 
+////////////////////////////////////////////////////////////////////////////
+*** Here are the six hands...
+ 3D 6S QC 5C 4S
+ KH 9S 10D QD 2C
+ 8H 10S 4H JS 9H
+ AS 4D JD 2D 8D
+ JH 5H QH AD 10H
+ JC 6C 7H KD 6D
+
+*** Here is what remains in the deck...
+ 2S 8C 7D 10C 3H 9D KS 2H AC 6H 4C KC 9C 8S 7C 3C 7S 5S 3S 5D QS AH
+
+--- WINNING HAND ORDER ---
+ JH  5H  QH  AD 10H  // [0, 13, 4, 13, 11, 10, 0] - High Card
+ AS  4D  JD  2D  8D  // [0, 13, 3, 13, 10, 1, 3] - High Card
+ KH  9S 10D  QD  2C  // [0, 12, 8, 12, 11, 1, 2] - High Card
+ JD  6D  7D  KD  6D  // [0, 12, 5, 5, 12, 10, 0] - High Card
+ 3D  6S  QC  5C  4S  // [0, 11, 4, 3, 2, 11, 1] - High Card
+ 8H 10S  4H  JS  9H  // [0, 10, 8, 7, 3, 10, 3] - High Card
+
+////////////////////////////////////////////////////////////////////////////
+*** Here are the six hands...
+ AC 2S 5D 9S 4H
+ QH 2C 4C 9H KH
+ 8C 6S 10H 10D 6H
+ KS 8H 3C 5S 5H
+ 7C AD 2H 5C QC
+ JC AS 3S QD 9D
+
+*** Here is what remains in the deck...
+ 3D 4S JH 2D 4D 7S 7D 6D 8D 8S KD 7H 10S JS 10C JD 3H KC AH QS 6C 9C
+
+--- WINNING HAND ORDER ---
+ 8C  6S 10H 10D  6H  // [2, 9, 5, 0, 0, 0, 0] - Two Pair
+ 7C  AD  2H  5C  QC  // [0, 13, 4, 13, 11, 1, 0] - High Card
+ AC  2S  5D  9S  4H  // [0, 13, 4, 3, 13, 1, 1] - High Card
+ JC  AS  3S  QD  9D  // [0, 13, 2, 13, 11, 10, 3] - High Card
+ KD  8D  3D  5D  5D  // [0, 12, 4, 4, 2, 12, 0] - High Card
+ QH  2C  4C  9H  KH  // [0, 12, 3, 12, 11, 1, 2] - High Card
+
+////////////////////////////////////////////////////////////////////////////
+*** Here are the six hands...
+ 2C 4S JC 6C 8C
+ 7D 8H KD 6D 4D
+ 10S 3H 10H 2S 5S
+ 4C 7C QS AC 10D
+ 7H 2D 3C AD JS
+ AS KC 6H 10C 9S
+
+*** Here is what remains in the deck...
+ AH KH 9D 8D QD 5D 8S JH 9H JD 3S 6S 5C 5H 7S 3D 2H 9C QH 4H KS QC
+
+--- WINNING HAND ORDER ---
+ AS  KC  6H 10C  9S  // [0, 13, 8, 5, 13, 12, 3] - High Card
+ 4C  7C  QS  AC 10D  // [0, 13, 6, 3, 13, 11, 1] - High Card
+ 7H  2D  3C  AD  JS  // [0, 13, 2, 13, 10, 1, 0] - High Card
+ 7D  8H  KD  6D  4D  // [0, 12, 6, 5, 3, 12, 0] - High Card
+ 2C  4S  JC  6C  8C  // [0, 10, 5, 3, 10, 1, 1] - High Card
+10D  3D 10D  2D  5D  // [0, 9, 9, 4, 2, 1, 0] - High Card
+
+////////////////////////////////////////////////////////////////////////////
+*** Here are the six hands...
+ JD 10H 10D QC 9H
+ 8S 7S 4H 2C 6H
+ 7D 4C 2H KC 5D
+ QD 6C 4S 10C JH
+ 7C KD KS 5C 6S
+ 5H JS 8H 7H 9D
+
+*** Here is what remains in the deck...
+ 2S 3D AC 3C 10S KH 4D JC AH QS AD 2D 8D 9C 9S QH 8C 6D 3S 3H AS 5S
+
+--- WINNING HAND ORDER ---
+ 7D  KD  KD  5D  6D  // [0, 12, 5, 4, 12, 12, 0] - High Card
+ 7D  4C  2H  KC  5D  // [0, 12, 4, 3, 12, 1, 1] - High Card
+ JD 10D 10D  QD  9D  // [0, 11, 9, 8, 11, 10, 0] - High Card
+ QD  6C  4S 10C  JH  // [0, 11, 5, 3, 11, 10, 0] - High Card
+ 5H  JS  8H  7H  9D  // [0, 10, 7, 6, 4, 10, 3] - High Card
+ 8S  7S  4H  2C  6H  // [0, 7, 6, 5, 3, 1, 3] - High Card
+
+////////////////////////////////////////////////////////////////////////////
+*** Here are the six hands...
+ JH KH AC 3H AS
+ 3C QD 2D 10S 6S
+ 7D 10H 9D 5C JD
+ AD 2H 6D 7H 5D
+ 4S 4H 9C JS 8S
+ 5H 2S 10C 4C 5S
+
+*** Here is what remains in the deck...
+ 4D 10D 7S 3S JC 9S 3D 8D 7C 9H KS QH 6H 8C KC KD AH 2C 8H QS QC 6C
+
+--- WINNING HAND ORDER ---
+ JD  KD  AD  3D  AD  // [0, 13, 13, 13, 12, 10, 0] - High Card
+ AD  2H  6D  7H  5D  // [0, 13, 5, 4, 13, 1, 0] - High Card
+ 3C  QD  2D 10S  6S  // [0, 11, 5, 2, 11, 1, 0] - High Card
+ 7D 10H  9D  5C  JD  // [0, 10, 8, 6, 4, 10, 0] - High Card
+ 4D  4D  9D  JD  8D  // [0, 10, 7, 3, 3, 10, 0] - High Card
+ 5D  2D 10D  4D  5D  // [0, 9, 4, 4, 3, 1, 0] - High Card
+
+////////////////////////////////////////////////////////////////////////////
+*** Here are the six hands...
+ AC 4H JD 9C AD
+ 9S 6D 2D JS 3C
+ 5S KH KD 5D QC
+ 10S KS 10H 6C 10C
+ 8S 2S 7D 10D 7C
+ 8C AH QD AS 8H
+
+*** Here is what remains in the deck...
+ 3H QS 7H 4D 4S 9D 2H KC 6H 4C 3S QH 9H 5C 6S 3D JC 8D JH 5H 7S 2C
+
+--- WINNING HAND ORDER ---
+10S  KS 10H  6C 10C  // [3, 12, 9, 9, 5, 12, 3] - Three of a Kind
+ 8C  AH  QD  AS  8H  // [2, 7, 13, 0, 0, 0, 3] - Two Pair
+ 5S  KH  KD  5D  QC  // [2, 4, 12, 0, 0, 0, 0] - Two Pair
+ AD  4D  JD  9D  AD  // [0, 13, 3, 13, 13, 10, 0] - High Card
+ 9S  6D  2D  JS  3C  // [0, 10, 5, 2, 10, 1, 3] - High Card
+ 8D  2D  7D 10D  7D  // [0, 9, 7, 6, 6, 1, 0] - High Card
+
+
+
+
+
+
+
