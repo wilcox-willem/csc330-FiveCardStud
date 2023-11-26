@@ -141,7 +141,7 @@ sub import_deck {
             my $currentcard = create_card_from_string($token);
             
             # debug to see how create_card performs
-            print "$token \\ $currentcard \n";
+            # print "$token \\ $currentcard \n";
 
             # check for duplicates in the deck
             if ($cardsInDeck{$currentcard}) {
@@ -300,10 +300,10 @@ sub printResults {
         my $score = $scoreKeeperAll->[$i][0];
         my $string = $rankStrings[$score];
 
-        # print "- $string\n";
+        print "- $string\n";
         
         # debug print statement
-        print " // [", join(", ", @{$scoreKeeperAll->[$i]}), "] "."- $string\n";
+        # print " // [", join(", ", @{$scoreKeeperAll->[$i]}), "] "."- $string\n";
 
     }
 

@@ -1,0 +1,32 @@
+README 
+Go
+WW
+MU CSC330 Dr. Pounds
+
+To build the program, use the command
+	go build -o tableTest Deck.go HandAlyzer.go tableTest.go
+ 
+To run the program, use the command
+	tableTest
+	~OR~ 
+	tableTest filePath/fileName
+
+----------------------------------------------------------------------
+
+My impressions/notes of Go:
+
+	- It's like the nice parts of java, c++, and python got blended
+	  together
+
+	- I think this would be a great language to teach data structures in.
+	  It is really powerful, helpful, and a lot easier to debug than c++
+
+	- I like the structure and use of {} without heavy use of ;'s! 
+	  ;'s tend to get on my nerves, sometimes, I code on a 4k tv 
+	  so I can have more windows open, and it gets really tricky 
+	  spotting the 2 pixel difference between ; : (sometimes I think it's
+	  dust or something on the screen)
+
+	- Go seems like a language perfect for speedsters and back room devs
+
+	- I still like perl more
